@@ -25,6 +25,8 @@
 
 - **preprocess** folder includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
 
+- The large files used for the benchmark is shared on [GDrive](https://drive.google.com/drive/folders/1MjE8wrYsHWHIeI3RE-vwxFAHyx0aSWCi?usp=sharing) 
+
 # License
 
 Copyright (C)
