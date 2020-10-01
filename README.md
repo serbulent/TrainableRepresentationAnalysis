@@ -17,15 +17,49 @@
 - ProtBench is tool that can be used to evaluate any protein representation model. The tool can be found under 
 **generalized_representation_benchmark** folder (Still under development)
 
-- **GO_Prediction** folder includes codes used for "Ontology-based protein function prediction" task.
+--**Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
 
-- **embedding_similarity** folder includes codes used for "Semantic similarity inference" task.
+- **GO_Prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
 
-- **protein_family_prediction** folder includes codes used for "Drug-target protein family classification" task.
+- **embedding_similarity** folder is under **Benchmark_Study** and includes codes used for "Semantic similarity inference" task.
 
-- **preprocess** folder includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
+- **protein_family_prediction** folder is under **Benchmark_Study** and includes codes used for "Drug-target protein family classification" task.
 
-- The large files used for the benchmark is shared on [GDrive](https://drive.google.com/drive/folders/1MjE8wrYsHWHIeI3RE-vwxFAHyx0aSWCi?usp=sharing) 
+- **preprocess** folder is under **Benchmark_Study** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
+
+- The large files used for the benchmark is shared on [GDrive](https://drive.google.com/drive/folders/1adgnOlb-4gQLgxEdsFmwtYFoYaiq5Eva) and the main directory structure is shown below.
+
+The data used in ProtBench was located under "ProtBench" folder. The data belongs to benchmark study was located under the "Benchmark_IO_data" folder. Each task and  shared data has its own folder. The directory structure is self-explanatory and standard for all tasks, hence some of the folders might be empty based on task for now. 
+
+Other than that the reusable 11 precalculated reusable protein representation vectors for human proteins can be found under "Shared_Data/Representations/representations_vectors/representation_vector_dataframes" folder for further use.
+
+<pre>
+-ProtBench 
+-Benchmark_IO_data
+|
+|---GO_prediction
+   |
+   |---preprocess
+   |---input_data
+   |---results
+      |---main_results
+      |---detailed_results
+|---Embedding_Similarity
+   |
+   |---preprocess
+   |---input_data
+   |---results
+      |---main_results
+      |---detailed_results
+|---Protein_Family_Prediction
+   |
+   |---preprocess
+   |---input_data
+   |---results
+      |---main_results
+      |---detailed_results
+|---Shared_Data
+</pre>
 
 # License
 
