@@ -17,7 +17,7 @@
 - ProtBench is tool that can be used to evaluate any protein representation model. The tool can be found under 
 **generalized_representation_benchmark** folder (Still under development)
 
---**Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
+- **Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
 
 - **GO_Prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
 
