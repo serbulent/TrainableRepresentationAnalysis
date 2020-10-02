@@ -19,7 +19,7 @@
 
 - **Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
 
-- **GO_Prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
+- **go_prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
 
 - **embedding_similarity** folder is under **Benchmark_Study** and includes codes used for "Semantic similarity inference" task.
 
