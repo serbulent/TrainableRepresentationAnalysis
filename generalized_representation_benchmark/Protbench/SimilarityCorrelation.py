@@ -26,6 +26,7 @@ representation_dataframe = ""
 protein_names =  ""
 # define similarity_list and proteinList as global variables
 representation_name = ""
+similarity_tasks = "Sparse"
 
 def parallelSimilarity(paramList):
     protein_embedding_dataframe = representation_dataframe
@@ -124,7 +125,12 @@ def calculateCorrelationforOntology(aspect,matrix_type):
 
 def calculate_all_correlations():
     buffer = "aspect,cosineCorr,cosineCorrPVal,manhattanCorr,manhattanCorrPVal,euclidianCorr,euclidianCorrPVal \n"
-    for similarity_matrix_type in ["Sparse","200","500","All"]:
+    task_list = []
+    if similarity_tasks == "All":
+        task_list = ["Sparse","200","500","All"]
+    else:
+        task_list.append(similarity_tasks)
+    for similarity_matrix_type in task_list:
         saveFileName = representation_name+"_"+similarity_matrix_type+".csv"
         f = open(saveFileName,'w')
         f.write(buffer)
