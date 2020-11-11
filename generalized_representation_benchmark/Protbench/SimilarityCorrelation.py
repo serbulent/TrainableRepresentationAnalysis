@@ -26,7 +26,7 @@ representation_dataframe = ""
 protein_names =  ""
 # define similarity_list and proteinList as global variables
 representation_name = ""
-similarity_tasks = "Sparse"
+similarity_tasks = ""
 
 def parallelSimilarity(paramList):
     protein_embedding_dataframe = representation_dataframe
@@ -56,10 +56,10 @@ def calculateCorrelationforOntology(aspect,matrix_type):
     proteinListNew[:] = []
     
     similarityMatrixNameDict = {}
-    similarityMatrixNameDict["All"] = "../DATA/preprocess/human_"+aspect+"_proteinSimilarityMatrix.csv" 
-    similarityMatrixNameDict["500"] = "../DATA/preprocess/human_"+aspect+"_proteinSimilarityMatrix_for_highest_annotated_500_proteins.csv"
-    similarityMatrixNameDict["Sparse"] = "../DATA/preprocess/human_"+aspect+"_proteinSimilarityMatrix_for_highest_annotated_500_proteins.csv" 
-    similarityMatrixNameDict["200"] = "../DATA/preprocess/human_"+aspect+"_proteinSimilarityMatrix_for_highest_annotated_200_proteins.csv"
+    similarityMatrixNameDict["All"] = "../data/preprocess/human_"+aspect+"_proteinSimilarityMatrix.csv" 
+    similarityMatrixNameDict["500"] = "../data/preprocess/human_"+aspect+"_proteinSimilarityMatrix_for_highest_annotated_500_proteins.csv"
+    similarityMatrixNameDict["Sparse"] = "../data/preprocess/human_"+aspect+"_proteinSimilarityMatrix_for_highest_annotated_500_proteins.csv" 
+    similarityMatrixNameDict["200"] = "../data/preprocess/human_"+aspect+"_proteinSimilarityMatrix_for_highest_annotated_200_proteins.csv"
 
     similarityMatrixFileName = similarityMatrixNameDict[matrix_type]
 
@@ -72,7 +72,7 @@ def calculateCorrelationforOntology(aspect,matrix_type):
         proteinListNew.append(prot)
     if matrix_type == "Sparse":
         #sparsified_similarities = np.load("SparsifiedSimilarites_for_highest_500.npy")
-        sparsified_similarity_coordinates = np.load("../auxilary_input/SparsifiedSimilarityCoordinates_"+aspect+"_for_highest_500.npy")
+        sparsified_similarity_coordinates = np.load("../data/auxilary_input/SparsifiedSimilarityCoordinates_"+aspect+"_for_highest_500.npy")
         protParamList = sparsified_similarity_coordinates
     else:     
         i = range(len(proteinList))
@@ -131,7 +131,7 @@ def calculate_all_correlations():
     else:
         task_list.append(similarity_tasks)
     for similarity_matrix_type in task_list:
-        saveFileName = representation_name+"_"+similarity_matrix_type+".csv"
+        saveFileName = "../results/"+representation_name+"_"+similarity_matrix_type+".csv"
         f = open(saveFileName,'w')
         f.write(buffer)
         for aspect in ["MF","BP","CC"]:

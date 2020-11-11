@@ -26,7 +26,7 @@ if args.similarity or args.all:
     # The representation should be a pickle object which is a dataframe consists of two coloumns
     # Entry (UNIPROT Entry_ID) and Vector (the representation vector belongs to that protein)
     smc.protein_names = smc.representation_dataframe['Entry'].tolist()
-    smc.tasks = args.similarity_tasks
+    smc.similarity_tasks = args.similarity_tasks
     smc.calculate_all_correlations()
 
 
