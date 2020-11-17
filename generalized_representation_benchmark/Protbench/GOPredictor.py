@@ -16,8 +16,11 @@ dataset_type = ""
 representation_dataframe = ""
 representation_name = ""
 
-print(datetime.now())      
-        
+def warn(*args, **kwargs):
+    pass
+import warnings
+warnings.warn = warn
+
 def MultiLabelSVC_cross_val_predict(representation_name, dataset, X, y, classifier):
     #dataset split, estimator, cv
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
@@ -81,13 +84,13 @@ def ProtDescModel():
     cv_results = []
     cv_mean_results = []
     for dt in tqdm(filtered_datasets,total=len(filtered_datasets)):
-        dt_file = pd.read_csv(r"../data/auxilary_input/GO_datasets/{0}".format(dt.split(".")[0]),sep="\t")
+        dt_file = pd.read_csv(r"../data/auxilary_input/GO_datasets/{0}".format(dt),sep="\t")
         dt_merge = dt_file.merge(representation_dataframe,left_on="Protein_Id",right_on="Entry")
 
         dt_X = dt_merge['Vector']
         dt_y = dt_merge.iloc[:,1:-2]
         #print("raw dt vs. dt_merge: {} - {}".format(len(dt_file),len(dt_merge)))
-        print("Calculating predictions for" +  r"../data/auxilary_input/GO_datasets/{0}".format(dt))
+        print("Calculating predictions for " +  dt.split(".")[0])
         model = MultiLabelSVC_cross_val_predict(representation_name, dt.split(".")[0], dt_X, dt_y, classifier=BinaryRelevance(SVC(kernel="linear", random_state=42)))
         cv_results.append(model[0])                
         cv_mean_results.append(model[1])
