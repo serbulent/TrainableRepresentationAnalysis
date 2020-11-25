@@ -15,6 +15,7 @@ aspect_type = ""
 dataset_type = ""
 representation_dataframe = ""
 representation_name = ""
+detailed_output = False
 
 def warn(*args, **kwargs):
     pass
@@ -28,8 +29,8 @@ def MultiLabelSVC_cross_val_predict(representation_name, dataset, X, y, classifi
     Xn = np.array(np.asarray(X.values.tolist()), dtype=float)    
     y_pred = cross_val_predict(clf, Xn, y, cv=kf)
 
-    with open(r"../results/models/{0}_{1}.pkl".format(representation_name,dataset.split(".")[0]),"wb") as file:
-        pickle.dump(clf,file)
+    #with open(r"../results/{0}_{1}.pkl".format(representation_name,dataset.split(".")[0]),"wb") as file:
+    #    pickle.dump(clf,file)
         
     acc_cv = []
     f1_mi_cv = []
@@ -84,20 +85,21 @@ def ProtDescModel():
     cv_results = []
     cv_mean_results = []
     for dt in tqdm(filtered_datasets,total=len(filtered_datasets)):
+        print(r"Protein function prediction started for data set {0}".format(dt.split(".")[0]))
         dt_file = pd.read_csv(r"../data/auxilary_input/GO_datasets/{0}".format(dt),sep="\t")
         dt_merge = dt_file.merge(representation_dataframe,left_on="Protein_Id",right_on="Entry")
 
         dt_X = dt_merge['Vector']
         dt_y = dt_merge.iloc[:,1:-2]
         #print("raw dt vs. dt_merge: {} - {}".format(len(dt_file),len(dt_merge)))
-        print("Calculating predictions for " +  dt.split(".")[0])
+        #print("Calculating predictions for " +  dt.split(".")[0])
         model = MultiLabelSVC_cross_val_predict(representation_name, dt.split(".")[0], dt_X, dt_y, classifier=BinaryRelevance(SVC(kernel="linear", random_state=42)))
         cv_results.append(model[0])                
         cv_mean_results.append(model[1])
         
         predictions = dt_merge.iloc[:,:6]
         predictions["predicted_values"] = list(model[2].toarray())
-        predictions.to_csv(r"../results/predictions/{0}_{1}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
+        #predictions.to_csv(r"../results/{0}_{1}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
 
     return (cv_results, cv_mean_results)             
 
@@ -108,15 +110,16 @@ def pred_output():
     df_cv_result = pd.DataFrame(columns=["model","acc","f1_mi","f1_ma","f1_we","pr_mi","pr_ma","pr_we",\
                                          "rc_mi","rc_ma","rc_we","hamm"])
     for i in cv_result:
-        df_cv_result.loc[len(df_cv_result)] = i
-    df_cv_result.to_csv(r"../results/{0}_5cv.tsv".format(representation_name),sep="\t",index=None)
+        df_cv_result.loc[len(df_cv_result)] = i.round(decimals=5)
+    if detailed_output:
+        df_cv_result.to_csv(r"../results/Ob_function_prediction_{0}_5cv.tsv".format(representation_name),sep="\t",index=None)
 
     cv_mean_result = model[1]
     df_cv_mean_result = pd.DataFrame(columns=["model","acc","f1_mi","f1_ma","f1_we","pr_mi","pr_ma","pr_we",\
                                               "rc_mi","rc_ma","rc_we","hamm"])
     for j in cv_mean_result:
-        df_cv_mean_result.loc[len(df_cv_mean_result)] = j
-    df_cv_mean_result.to_csv(r"../results/{0}_5cv_mean.tsv".format(representation_name),sep="\t",index=None)
+        df_cv_mean_result.loc[len(df_cv_mean_result)] = j.round(decimals=5)
+    df_cv_mean_result.to_csv(r"../results/Ob_function_prediction_{0}_5cv_mean.tsv".format(representation_name),sep="\t",index=None)
 
 print(datetime.now())      
 
@@ -136,3 +139,4 @@ print(datetime.now())
 
 # apaac = pred_output("apaac","80") 
 #ksep = pred_output("ksep","400") 
+

@@ -51,6 +51,7 @@ def parallelSimilarity(paramList):
     return similarity_list
 
 def calculateCorrelationforOntology(aspect,matrix_type):
+    print("\nSimilarity correlation calculation for aspect:" + aspect + " using matrix:" + matrix_type + " started...\n")
     #Clear lists before each aspect
     similarity_list[:] = []
     proteinListNew[:] = []
@@ -117,9 +118,9 @@ def calculateCorrelationforOntology(aspect,matrix_type):
     manhattanCorr = spearmanr(real_distance_list, manhattan_distance_list)
     euclidianCorr = spearmanr(real_distance_list, euclidian_distance_list)   
 
-    print("Cosine Correlation for "+aspect+" is " + str(cosineCorr))
-    print("Manhattan Correlation for "+aspect+" is " + str(manhattanCorr))
-    print("Euclidian Correlation for "+aspect+" is " + str(euclidianCorr))
+    #print("Cosine Correlation for "+aspect+" is " + str(cosineCorr))
+    #print("Manhattan Correlation for "+aspect+" is " + str(manhattanCorr))
+    #print("Euclidian Correlation for "+aspect+" is " + str(euclidianCorr))
 
     return (cosineCorr,manhattanCorr,euclidianCorr)
 
@@ -131,13 +132,14 @@ def calculate_all_correlations():
     else:
         task_list.append(similarity_tasks)
     for similarity_matrix_type in task_list:
-        saveFileName = "../results/"+representation_name+"_"+similarity_matrix_type+".csv"
+        saveFileName = "../results/Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+".csv"
         f = open(saveFileName,'w')
         f.write(buffer)
         for aspect in ["MF","BP","CC"]:
-            print(saveFileName)
+            #print(saveFileName)
             corr =  calculateCorrelationforOntology(aspect,similarity_matrix_type) 
-            buffer = "" + aspect + ","+ str(corr[0][0])+ ","+ str(corr[0][1])+ ","+ str(corr[1][0])+ ","+ str(corr[1][1])+ ","+ str(corr[2][0])+ ","+ str(corr[2][1])+"\n" 
+            buffer = "" + aspect + ","+ str(corr[0][0].round(decimals=5))+ ","+ str(corr[0][1].round(decimals=5))+ ","+ str(corr[1][0].round(decimals=5))\
+            + ","+ str(corr[1][1].round(decimals=5))+ ","+ str(corr[2][0].round(decimals=5))+ ","+ str(corr[2][1].round(decimals=5))+"\n" 
             f = open(saveFileName,'a')
             f.write(buffer)
             f.close()
