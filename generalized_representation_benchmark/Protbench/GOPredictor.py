@@ -45,30 +45,33 @@ def MultiLabelSVC_cross_val_predict(representation_name, dataset, X, y, classifi
     hamm_cv = []
     for fold_train_index,fold_test_index in kf.split(X,y):
         acc = accuracy_score(y.iloc[fold_test_index,:],y_pred[fold_test_index])
-        acc_cv.append(acc)
+        acc_cv.append(np.round(acc,decimals=5))
         f1_mi = f1_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="micro")
-        f1_mi_cv.append(f1_mi)
+        f1_mi_cv.append(np.round(f1_mi,decimals=5))
         f1_ma = f1_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="macro")
-        f1_ma_cv.append(f1_ma)
+        f1_ma_cv.append(np.round(f1_ma,decimals=5))
         f1_we = f1_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="weighted")
-        f1_we_cv.append(f1_we)
+        f1_we_cv.append(np.round(f1_we,decimals=5))
         pr_mi = precision_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="micro")
-        pr_mi_cv.append(pr_mi)
+        pr_mi_cv.append(np.round(pr_mi,decimals=5))
         pr_ma = precision_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="macro")
-        pr_ma_cv.append(pr_ma)
+        pr_ma_cv.append(np.round(pr_ma,decimals=5))
         pr_we = precision_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="weighted")
-        pr_we_cv.append(pr_we)
+        pr_we_cv.append(np.round(pr_we,decimals=5))
         rc_mi = recall_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="micro")
-        rc_mi_cv.append(rc_mi)
+        rc_mi_cv.append(np.round(rc_mi,decimals=5))
         rc_ma = recall_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="macro")
-        rc_ma_cv.append(rc_ma)
+        rc_ma_cv.append(np.round(rc_ma,decimals=5))
         rc_we = recall_score(y.iloc[fold_test_index,:],y_pred[fold_test_index],average="weighted")
-        rc_we_cv.append(rc_we)
+        rc_we_cv.append(np.round(rc_we,decimals=5))
         hamm = hamming_loss(y.iloc[fold_test_index,:],y_pred[fold_test_index])
-        hamm_cv.append(hamm)
+        hamm_cv.append(np.round(hamm,decimals=5))
+
+    means = list(np.mean([acc_cv,f1_mi_cv,f1_ma_cv,f1_we_cv,pr_mi_cv,pr_ma_cv,pr_we_cv,rc_mi_cv,rc_ma_cv,rc_we_cv,hamm_cv], axis=1))
+    means = [np.round(i,decimals=5) for i in means]
 
     return ([representation_name+"_"+dataset,acc_cv,f1_mi_cv,f1_ma_cv,f1_we_cv,pr_mi_cv,pr_ma_cv,pr_we_cv,rc_mi_cv,rc_ma_cv,rc_we_cv,hamm_cv],\
-            [representation_name+"_"+dataset]+list(np.mean([acc_cv,f1_mi_cv,f1_ma_cv,f1_we_cv,pr_mi_cv,pr_ma_cv,pr_we_cv,rc_mi_cv,rc_ma_cv,rc_we_cv,hamm_cv], axis=1)),\
+            [representation_name+"_"+dataset]+means,\
             y_pred)
    
 def ProtDescModel():   
@@ -110,16 +113,16 @@ def pred_output():
     df_cv_result = pd.DataFrame(columns=["model","acc","f1_mi","f1_ma","f1_we","pr_mi","pr_ma","pr_we",\
                                          "rc_mi","rc_ma","rc_we","hamm"])
     for i in cv_result:
-        df_cv_result.loc[len(df_cv_result)] = i.round(decimals=5)
+        df_cv_result.loc[len(df_cv_result)] = i
     if detailed_output:
-        df_cv_result.to_csv(r"../results/Ob_function_prediction_{0}_5cv.tsv".format(representation_name),sep="\t",index=None)
+        df_cv_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv.tsv".format(representation_name),sep="\t",index=None)
 
     cv_mean_result = model[1]
     df_cv_mean_result = pd.DataFrame(columns=["model","acc","f1_mi","f1_ma","f1_we","pr_mi","pr_ma","pr_we",\
                                               "rc_mi","rc_ma","rc_we","hamm"])
     for j in cv_mean_result:
-        df_cv_mean_result.loc[len(df_cv_mean_result)] = j.round(decimals=5)
-    df_cv_mean_result.to_csv(r"../results/Ob_function_prediction_{0}_5cv_mean.tsv".format(representation_name),sep="\t",index=None)
+        df_cv_mean_result.loc[len(df_cv_mean_result)] = j
+    df_cv_mean_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv_mean.tsv".format(representation_name),sep="\t",index=None)
 
 print(datetime.now())      
 

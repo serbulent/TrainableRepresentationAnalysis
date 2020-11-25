@@ -20,7 +20,7 @@ parser.add_argument("-rn", "--representation_name", required=True, help="Name of
 
 try:
     args = parser.parse_args()
-    if not (args.similarity or args.family_prediction or args.function or args.all):
+    if not (args.similarity or args.family_prediction or args.function_prediction or args.all):
             parser.error('At least one benchmark type should be selected')
 except:
     parser.print_help()
