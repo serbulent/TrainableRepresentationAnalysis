@@ -10,7 +10,7 @@
 
 - The study is summarized in the figure below;<br/><br/> 
  
- ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/study_summary.png)
+ ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/evalprotrep_summary_figure.png)
 
 ## Organization of this repository
 
