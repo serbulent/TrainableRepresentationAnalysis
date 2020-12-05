@@ -35,15 +35,16 @@ def score_protein_rep():
     vecsize = dataframe.shape[1]-1    
     x = np.empty([0, vecsize])
     y = []
-    print("\n\nPreprocess data for drug target protein classification (class based)...\n")
+    print("\n\nPreprocess data for drug target protein family prediction (class based)...\n")
     for index, row in tqdm(protein_list.iterrows(), total=len(protein_list)) :
         pdrow = dataframe.loc[dataframe['Entry'] == row['Entry']]
-        a = pdrow.loc[ : , pdrow.columns != 'Entry']
-        a = np.array(a)
-        a.shape = (1,vecsize)
-        x = np.append(x, a, axis=0)
-        y.append(row['Class'])
-        
+        if len(pdrow) != 0:
+            a = pdrow.loc[ : , pdrow.columns != 'Entry']
+            a = np.array(a)
+            a.shape = (1,vecsize)
+            x = np.append(x, a, axis=0)
+            y.append(row['Class'])
+
     x = x.astype(np.float64)
     y = np.array(y)
     y = y.astype(np.float64)
@@ -61,8 +62,8 @@ def score_protein_rep():
     mcc1005 = []
     mcc2000 = []
     
-    print('Calculating class predictions... (class based)\n')
-    for i in tqdm(range(5)):
+    print('Calculating family predictions... (class based)\n')
+    for i in tqdm(range(100)):
         y1 = np.empty([0])
         y11 = np.empty([0])
         y12 = np.empty([0])
@@ -101,8 +102,6 @@ def score_protein_rep():
         
         clf = linear_model.SGDClassifier(class_weight="balanced", loss="log", penalty="elasticnet", max_iter=1000, tol=1e-3,n_jobs=-1,random_state=i)
         clf2 = OneVsRestClassifier(clf,n_jobs=-1).fit(X_train, y_train)
-        
-        #y_pred = cross_val_predict(clf2, X_test, y_test, cv=10)
         y_pred = clf2.predict(X_test)
 
         f1 = f1_score(y_test, y_pred, labels=labels, average=None)
@@ -142,17 +141,17 @@ def score_protein_rep():
     mccs = [mcc1.mean(), mcc11.mean(), mcc12.mean(), mcc1005.mean(), mcc2000.mean(), np.average([mcc1.mean(),  mcc11.mean(), mcc12.mean(), mcc1005.mean(), mcc2000.mean()], weights=[len(y1), len(y11), len(y12), len(y1005), len(y2000)])]
     accuracys = [acmeans[0], acmeans[1], acmeans[2], acmeans[3], acmeans[4], np.average(acmeans, weights=[len(y1), len(y11), len(y12), len(y1005), len(y2000)])]
     report['Families'] = labels
-    report['F1_score'] = [i.round(decimals=5) for i in f1s]
+    report['F1_Score'] = [i.round(decimals=5) for i in f1s]
     report['Accuracy'] = [i.round(decimals=5) for i in accuracys]
     report['MCC'] = [i.round(decimals=5) for i in  mccs]
     report.to_csv('../results/dt_prot_famliy_pred_'+representation_name+'_report_class_based.csv',index=False)
     
     #print(report)
     if detailed_output:
-        save('../results/drug_target_protein_classification_f1_perclass_'+ representation_name +'.npy', f1_perclass)
-        save('../results/drug_target_protein_classification_accuracy_perclass_'+ representation_name +'.npy', accurac_perclass)
-        save('../results/drug_target_protein_classification_mcc_perclass_'+ representation_name +'.npy', mcc_perclass) 
-        save('../results/drug_target_protein_classification_y_pred_'+ representation_name +'.npy', y_pred) 
+        save('../results/drug_target_family_pred_f1_perclass_'+ representation_name +'.npy', f1_perclass)
+        save('../results/drug_target_family_pred_accuracy_perclass_'+ representation_name +'.npy', accurac_perclass)
+        save('../results/drug_target_family_pred_mcc_perclass_'+ representation_name +'.npy', mcc_perclass) 
+        #save('../results/drug_target_family_pred_y_pred_'+ representation_name +'.npy', y_pred) 
 
 #score_protein_rep("embedding_dataframes/SeqVec_dataframe_multi_col.pkl")
 

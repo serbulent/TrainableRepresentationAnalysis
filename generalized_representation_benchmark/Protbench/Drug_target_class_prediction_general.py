@@ -37,13 +37,14 @@ def score_protein_rep():
     x = np.empty([0, vecsize])
     y = []
     print("\n\nPreprocess data for drug-target protein family prediction ...\n ")
-    for index, row in tqdm(protein_list.iterrows(), total=len(protein_list)) :
+    for index, row in tqdm(protein_list.iterrows(), total=len(protein_list)):
         pdrow = dataframe.loc[dataframe['Entry'] == row['Entry']]
-        a = pdrow.loc[ : , pdrow.columns != 'Entry']
-        a = np.array(a)
-        a.shape = (1,vecsize)
-        x = np.append(x, a, axis=0)
-        y.append(row['Class'])
+        if len(pdrow) != 0:
+            a = pdrow.loc[ : , pdrow.columns != 'Entry']
+            a = np.array(a)
+            a.shape = (1,vecsize)
+            x = np.append(x, a, axis=0)
+            y.append(row['Class'])
         
     x = x.astype(np.float64)
     y = np.array(y)

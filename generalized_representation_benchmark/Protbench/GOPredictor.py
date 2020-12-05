@@ -29,8 +29,9 @@ def MultiLabelSVC_cross_val_predict(representation_name, dataset, X, y, classifi
     Xn = np.array(np.asarray(X.values.tolist()), dtype=float)    
     y_pred = cross_val_predict(clf, Xn, y, cv=kf)
 
-    #with open(r"../results/{0}_{1}.pkl".format(representation_name,dataset.split(".")[0]),"wb") as file:
-    #    pickle.dump(clf,file)
+    if detailed_output:
+        with open(r"../results/{0}_{1}_model.pkl".format(representation_name,dataset.split(".")[0]),"wb") as file:
+            pickle.dump(clf,file)
         
     acc_cv = []
     f1_mi_cv = []
@@ -102,7 +103,8 @@ def ProtDescModel():
         
         predictions = dt_merge.iloc[:,:6]
         predictions["predicted_values"] = list(model[2].toarray())
-        #predictions.to_csv(r"../results/{0}_{1}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
+        if detailed_output:
+            predictions.to_csv(r"../results/{0}_{1}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
 
     return (cv_results, cv_mean_results)             
 
@@ -110,16 +112,17 @@ def ProtDescModel():
 def pred_output():
     model = ProtDescModel()
     cv_result = model[0]
-    df_cv_result = pd.DataFrame(columns=["model","acc","f1_mi","f1_ma","f1_we","pr_mi","pr_ma","pr_we",\
-                                         "rc_mi","rc_ma","rc_we","hamm"])
+    df_cv_result = pd.DataFrame(columns=["Model","Accuracy","F1_Micro","F1_Macro","F1_Weighted","Precision_Micro","Precision_Macro","Precision_Weighted",\
+                                         "Recall_Micro","Recall_Macro","Recall_Weighted","Hamming_Distance"])
     for i in cv_result:
         df_cv_result.loc[len(df_cv_result)] = i
     if detailed_output:
         df_cv_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv.tsv".format(representation_name),sep="\t",index=None)
 
     cv_mean_result = model[1]
-    df_cv_mean_result = pd.DataFrame(columns=["model","acc","f1_mi","f1_ma","f1_we","pr_mi","pr_ma","pr_we",\
-                                              "rc_mi","rc_ma","rc_we","hamm"])
+    df_cv_mean_result =pd.DataFrame(columns=["Model","Accuracy","F1_Micro","F1_Macro","F1_Weighted","Precision_Micro","Precision_Macro","Precision_Weighted",\
+                                         "Recall_Micro","Recall_Macro","Recall_Weighted","Hamming_Distance"])
+
     for j in cv_mean_result:
         df_cv_mean_result.loc[len(df_cv_mean_result)] = j
     df_cv_mean_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv_mean.tsv".format(representation_name),sep="\t",index=None)

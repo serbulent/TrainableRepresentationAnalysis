@@ -51,7 +51,7 @@ def parallelSimilarity(paramList):
     return similarity_list
 
 def calculateCorrelationforOntology(aspect,matrix_type):
-    print("\nSimilarity correlation calculation for aspect:" + aspect + " using matrix:" + matrix_type + " started...\n")
+    print("\n\nSemantic similarity correlation calculation for aspect:" + aspect + " using matrix:" + matrix_type + " ...\n")
     #Clear lists before each aspect
     similarity_list[:] = []
     proteinListNew[:] = []
@@ -125,7 +125,6 @@ def calculateCorrelationforOntology(aspect,matrix_type):
     return (cosineCorr,manhattanCorr,euclidianCorr)
 
 def calculate_all_correlations():
-    buffer = "aspect,cosineCorr,cosineCorrPVal,manhattanCorr,manhattanCorrPVal,euclidianCorr,euclidianCorrPVal \n"
     task_list = []
     if similarity_tasks == "All":
         task_list = ["Sparse","200","500","All"]
@@ -133,6 +132,7 @@ def calculate_all_correlations():
         task_list.append(similarity_tasks)
     for similarity_matrix_type in task_list:
         saveFileName = "../results/Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+".csv"
+        buffer = "Semantic Aspect,CosineSim_Correlation,CosineSim_Correlation p-value, ManhattanSim_Correlation,ManhattanSim_Correlation p-value, EuclidianSim_Correlation,EuclidianSim_Correlation p-value \n"
         f = open(saveFileName,'w')
         f.write(buffer)
         for aspect in ["MF","BP","CC"]:
