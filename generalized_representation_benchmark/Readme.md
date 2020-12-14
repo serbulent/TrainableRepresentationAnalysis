@@ -62,8 +62,8 @@ run by specifying the input vector file with the "-rf" parameter and the represe
 - **Benchmarking your own representation model:**
 
   - Semantic similarity prediction, Ontology-based protein function prediction and Drug target protein family classification tasks can be run for any representation vector dataset. There are two possible ways to do this:
-    - Cloning this capsule and running it on Code Ocean. 
-    - Downloading the repository by exporting the capsule (this option is advised if you plan to run additional tasks over the default ones, as the run time may be elevated).
+    - Cloning the capsule and running it on Code Ocean. 
+    - Clonning this repository  (this option is advised if you plan to run additional tasks over the default ones, as the run time may be elevated).
   
   - Prepraration of the input vector dataset: 
     - Generate your representation vectors for all human proteins (i.e. canonical isoforms).
