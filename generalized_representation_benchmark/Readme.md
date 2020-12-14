@@ -11,7 +11,7 @@
  to evaluate and compare their predictive performance on protein function related predictive tasks.
 
 - The benchmark module will only run for fundamental tests on one
-protein represenation method (i.e., SeqVec) in the default mode; however, all/selected tests can be run on 
+protein represenation method (e.g., SeqVec) in the default mode; however, all/selected tests can be run on 
 all/selected representation methods using the options given below.
  - Also each task can be run independently by using -s , -f, -fam options solely.
 
