@@ -1,0 +1,50 @@
+2020-11-25 21:29:39.082904
+usage: run_benchmarks.py [-h] [-s] [-fam] [-f] [-a] [-d]
+                         [-sts {Sparse,200,500,All}]
+                         [-fpa {MF,BP,CC,All_Aspects}]
+                         [-fpd {High,Middle,Low,All_Data_Sets}] -rf
+                         REPRESENTATION_FILE -rn REPRESENTATION_NAME
+
+A Protein Representation Benchmark Suite
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -s, --similarity      Protein similarity based correlation benchmark
+  -fam, --family_prediction
+                        Protein family prediction benchmark
+  -f, --function_prediction
+                        Protein function prediction benchmark
+  -a, --all             Run all benchmarks
+  -d, --detailed_output
+                        Save detailed outputs for tasks
+  -sts {Sparse,200,500,All}, --similarity_tasks {Sparse,200,500,All}
+  -fpa {MF,BP,CC,All_Aspects}, --function_prediction_aspect {MF,BP,CC,All_Aspects}
+  -fpd {High,Middle,Low,All_Data_Sets}, --function_prediction_dataset {High,Middle,Low,All_Data_Sets}
+  -rf REPRESENTATION_FILE, --representation_file REPRESENTATION_FILE
+                        File name of the representation - It should be a
+                        pandas dataframe in pickle format which includes
+                        'Entry' and 'Vector' columns
+  -rn REPRESENTATION_NAME, --representation_name REPRESENTATION_NAME
+                        Name of the representation will shown on charts and
+                        graphics
+2020-11-25 21:30:15.618158
+Namespace(all=True, detailed_output=True, family_prediction=False, function_prediction=False, function_prediction_aspect='All_Aspects', function_prediction_dataset='All_Data_Sets', representation_file='../data/representation_vectors/SeqVec_dataframe_multi_col.csv', representation_name='SeqVec', similarity=False, similarity_tasks='All')
+Representation Vector is Loading... 
+
+
+
+
+Protein Similarity Calculation Started...
+
+
+Similarity correlation calculation for aspect:MF using matrix:Sparse started...
+
+
+Similarity correlation calculation for aspect:BP using matrix:Sparse started...
+
+
+Similarity correlation calculation for aspect:CC using matrix:Sparse started...
+
+
+Similarity correlation calculation for aspect:MF using matrix:200 started...
+
