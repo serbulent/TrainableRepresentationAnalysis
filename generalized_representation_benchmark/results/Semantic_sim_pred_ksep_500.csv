@@ -1,4 +1,0 @@
-GO Aspect,CosineSim_Correlation,CosineSim_Correlation p-value, ManhattanSim_Correlation,ManhattanSim_Correlation p-value, EuclidianSim_Correlation,EuclidianSim_Correlation p-value 
-MF,0.14366,0.0,0.06333,0.0,0.06572,0.0
-BP,0.05633,0.0,0.06524,0.0,0.07023,0.0
-CC,0.08397,0.0,0.05631,0.0,0.064,0.0
