@@ -4,12 +4,15 @@ import numpy as np
 from datetime import datetime
 import pickle
 import os
+import multiprocessing
 from tqdm import tqdm
 
 from sklearn.svm import SVC
+from sklearn.linear_model import SGDClassifier
 from sklearn.model_selection import cross_val_predict, KFold
 from skmultilearn.problem_transform import BinaryRelevance
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, hamming_loss
+
 
 aspect_type = ""
 dataset_type = ""
@@ -97,7 +100,9 @@ def ProtDescModel():
         dt_y = dt_merge.iloc[:,1:-2]
         #print("raw dt vs. dt_merge: {} - {}".format(len(dt_file),len(dt_merge)))
         #print("Calculating predictions for " +  dt.split(".")[0])
-        model = MultiLabelSVC_cross_val_predict(representation_name, dt.split(".")[0], dt_X, dt_y, classifier=BinaryRelevance(SVC(kernel="linear", random_state=42)))
+        #model = MultiLabelSVC_cross_val_predict(representation_name, dt.split(".")[0], dt_X, dt_y, classifier=BinaryRelevance(SVC(kernel="linear", random_state=42)))
+        cpu_number  = multiprocessing.cpu_count()
+        model = MultiLabelSVC_cross_val_predict(representation_name, dt.split(".")[0], dt_X, dt_y, classifier=BinaryRelevance(SGDClassifier(n_jobs=cpu_number, random_state=42)))
         cv_results.append(model[0])                
         cv_mean_results.append(model[1])
         
@@ -112,16 +117,24 @@ def ProtDescModel():
 def pred_output():
     model = ProtDescModel()
     cv_result = model[0]
-    df_cv_result = pd.DataFrame(columns=["Model","Accuracy","F1_Micro","F1_Macro","F1_Weighted","Precision_Micro","Precision_Macro","Precision_Weighted",\
-                                         "Recall_Micro","Recall_Macro","Recall_Weighted","Hamming_Distance"])
+    df_cv_result = pd.DataFrame({"Model": pd.Series([], dtype='str') ,"Accuracy": pd.Series([], dtype='float'),"F1_Micro": pd.Series([], dtype='float'),\
+            "F1_Macro": pd.Series([], dtype='float'),"F1_Weighted": pd.Series([], dtype='float'),"Precision_Micro": pd.Series([], dtype='float'),\
+            "Precision_Macro": pd.Series([], dtype='float'),"Precision_Weighted": pd.Series([], dtype='float'),"Recall_Micro": pd.Series([], dtype='float'),\
+            "Recall_Macro": pd.Series([], dtype='float'),"Recall_Weighted": pd.Series([], dtype='float'),"Hamming_Distance": pd.Series([], dtype='float')})
     for i in cv_result:
         df_cv_result.loc[len(df_cv_result)] = i
     if detailed_output:
         df_cv_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv.tsv".format(representation_name),sep="\t",index=None)
 
     cv_mean_result = model[1]
-    df_cv_mean_result =pd.DataFrame(columns=["Model","Accuracy","F1_Micro","F1_Macro","F1_Weighted","Precision_Micro","Precision_Macro","Precision_Weighted",\
-                                         "Recall_Micro","Recall_Macro","Recall_Weighted","Hamming_Distance"])
+    df_cv_mean_result =  pd.DataFrame({"Model": pd.Series([], dtype='str') ,"Accuracy": pd.Series([], dtype='float'),"F1_Micro": pd.Series([], dtype='float'),\
+            "F1_Macro": pd.Series([], dtype='float'),"F1_Weighted": pd.Series([], dtype='float'),"Precision_Micro": pd.Series([], dtype='float'),\
+            "Precision_Macro": pd.Series([], dtype='float'),"Precision_Weighted": pd.Series([], dtype='float'),"Recall_Micro": pd.Series([], dtype='float'),\
+            "Recall_Macro": pd.Series([], dtype='float'),"Recall_Weighted": pd.Series([], dtype='float'),"Hamming_Distance": pd.Series([], dtype='float')})
+
+    
+    #pd.DataFrame(columns=["Model","Accuracy","F1_Micro","F1_Macro","F1_Weighted","Precision_Micro","Precision_Macro","Precision_Weighted",\
+    #                                     "Recall_Micro","Recall_Macro","Recall_Weighted","Hamming_Distance"])
 
     for j in cv_mean_result:
         df_cv_mean_result.loc[len(df_cv_mean_result)] = j

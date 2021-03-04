@@ -29,7 +29,7 @@ print(args)
 def load_representation(multi_col_representation_vector_file_path):
     multi_col_representation_vector = pd.read_csv(multi_col_representation_vector_file_path)
     vals = multi_col_representation_vector.iloc[:,1:(len(multi_col_representation_vector.columns))]
-    original_values_as_df = pd.DataFrame(columns=['Entry', 'Vector'])
+    original_values_as_df = pd.DataFrame({'Entry': pd.Series([], dtype='str'),'Vector': pd.Series([], dtype='object')})
     for index, row in tqdm.tqdm(vals.iterrows(), total = len(vals)):
         list_of_floats = [float(item) for item in list(row)]
         original_values_as_df.loc[index] = [multi_col_representation_vector.iloc[index]['Entry']] + [list_of_floats]
