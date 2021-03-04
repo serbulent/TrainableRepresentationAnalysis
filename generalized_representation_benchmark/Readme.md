@@ -2,6 +2,8 @@
 
 - The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository.
 
+- For running this tool locally please download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) and place it into the same folder with ProtBench directory.
+
 - Aiming to evaluate how much each representation model captures different facets of functional information, we constructed and applied benchmark tests based on;
   - inferring semantic similarities between proteins,
   - predicting ontology-based protein functions, and
