@@ -25,11 +25,41 @@ def warn(*args, **kwargs):
 import warnings
 warnings.warn = warn
 
+def check_for_at_least_two_class_sample_exits(y):
+    for column in y:
+        column_sum = np.sum(y[column].array)
+        if column_sum < 2:
+           print('At least 2 positive samples needed for each class {0} class has {1} positive samples'.format(column,column_sum))
+           return False
+    return True
+
+def create_valid_kfold_object_for_multilabel_splits(X,y,kf):
+    #Buraya her bir classın en az 2 fold da bulunduğuna dair kontrol eklenecek
+    sample_class_occurance = dict(zip(y.columns,np.zeros(len(y.columns))))
+    for column in y:
+        for fold_train_index,fold_test_index in kf.split(X,y):
+            fold_col_sum = np.sum(y.iloc[fold_test_index,:][column].array)
+            if fold_col_sum > 0:
+                sample_class_occurance[column] += 1 
+
+    for key in sample_class_occurance:
+        value = sample_class_occurance[key]
+        if value < 2:
+            random_state = np.random.randint(1000)
+            print("Random state changed since at least two positive samples are needed in different train/test folds.\
+                    \nHowever, only one fold exits with positive samples for class {0}".format(key))
+            print("Selected random state is {0}".format(random_state))
+            kf = KFold(n_splits=5, shuffle=True, random_state=random_state)
+            create_valid_kfold_object_for_multilabel_splits(X,y,kf)
+        else:
+            return kf
+
 def MultiLabelSVC_cross_val_predict(representation_name, dataset, X, y, classifier):
     #dataset split, estimator, cv
-    kf = KFold(n_splits=5, shuffle=True, random_state=42)
     clf = classifier
-    Xn = np.array(np.asarray(X.values.tolist()), dtype=float)    
+    Xn = np.array(np.asarray(X.values.tolist()), dtype=float)
+    kf_init = KFold(n_splits=5, shuffle=True, random_state=42)
+    kf = create_valid_kfold_object_for_multilabel_splits(X,y,kf_init)
     y_pred = cross_val_predict(clf, Xn, y, cv=kf)
 
     if detailed_output:
@@ -98,6 +128,9 @@ def ProtDescModel():
 
         dt_X = dt_merge['Vector']
         dt_y = dt_merge.iloc[:,1:-2]
+        if check_for_at_least_two_class_sample_exits(dt_y) == False:
+            print(r"No funtion will predicted for dataset {0}".format(dt.split(".")[0]))
+            continue
         #print("raw dt vs. dt_merge: {} - {}".format(len(dt_file),len(dt_merge)))
         #print("Calculating predictions for " +  dt.split(".")[0])
         #model = MultiLabelSVC_cross_val_predict(representation_name, dt.split(".")[0], dt_X, dt_y, classifier=BinaryRelevance(SVC(kernel="linear", random_state=42)))
