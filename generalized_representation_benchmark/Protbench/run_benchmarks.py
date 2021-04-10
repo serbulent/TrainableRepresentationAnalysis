@@ -3,6 +3,7 @@ import SimilarityCorrelation as smc
 import Drug_target_class_prediction_general as dtcpg
 import Drug_target_class_prediction as dtcp
 import GOPredictor as gp
+import AffinityPredictor as afp
 import pandas as pd
 import tqdm
 
@@ -10,6 +11,7 @@ parser = argparse.ArgumentParser(description='A Protein Representation Benchmark
 parser.add_argument("-s","--similarity", action='store_true', help="Protein similarity based correlation benchmark")
 parser.add_argument("-fam", "--family_prediction", action='store_true',  help="Protein family prediction benchmark")
 parser.add_argument("-f", "--function_prediction", action='store_true', help="Protein function prediction benchmark")
+parser.add_argument("-aff", "--affinity_prediction", action='store_true', help="Protein affinity prediction benchmark")
 parser.add_argument("-a", "--all", action='store_true',  help="Run all benchmarks")
 parser.add_argument("-d","--detailed_output", action='store_true', help="Save detailed outputs for tasks")
 parser.add_argument("-sts","--similarity_tasks", choices= ["Sparse","200","500","All"], default='Sparse')
@@ -20,7 +22,7 @@ parser.add_argument("-rn", "--representation_name", required=True, help="Name of
 
 try:
     args = parser.parse_args()
-    if not (args.similarity or args.family_prediction or args.function_prediction or args.all):
+    if not (args.similarity or args.family_prediction or args.function_prediction or args.affinity_prediction or args.all):
             parser.error('At least one benchmark type should be selected')
 except:
     parser.print_help()
@@ -35,7 +37,7 @@ def load_representation(multi_col_representation_vector_file_path):
         original_values_as_df.loc[index] = [multi_col_representation_vector.iloc[index]['Entry']] + [list_of_floats]
     return original_values_as_df
 
-if args.family_prediction != True or args.similarity or args.function_prediction:
+if args.similarity or args.function_prediction or args.all:
     print("Representation Vector is Loading... \n\n")
     representation_dataframe = load_representation(args.representation_file)
  
@@ -67,5 +69,10 @@ if args.family_prediction or args.all:
     dtcpg.representation_path = args.representation_file
     dtcpg.representation_name = args.representation_name
     dtcpg.score_protein_rep()
+if args.affinity_prediction or args.all:
+    print("\n\nProtein Affinity Prediction Started...\n")
+    afp.skempi_vectors_path = args.representation_file
+    afp.representation_name = args.representation_name
+    afp.predict_affinities_and_report_results()
 
 
