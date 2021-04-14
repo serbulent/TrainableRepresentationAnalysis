@@ -151,7 +151,7 @@ def predictAffinityWithModel(regressor_model,multiplied_vectors_df):
         validation_corr_pval_list,
     )
 
-ppi_affinity_file = "/media/DATA/serbulent/DATA/Thesis/ReviewPaper/generalized_representation_benchmark/DATA/auxilary_input/skempi_pipr/SKEMPI_all_dg_avg.txt"
+ppi_affinity_file = "../data/auxilary_input/skempi_pipr/SKEMPI_all_dg_avg.txt"
 ppi_affinity_df = pd.read_csv(ppi_affinity_file,sep="\t",header=None)
 ppi_affinity_df.columns = ['Protein1', 'Protein2', 'Affinity']
 
