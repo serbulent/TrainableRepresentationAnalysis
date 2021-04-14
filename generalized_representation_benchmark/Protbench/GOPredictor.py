@@ -193,7 +193,7 @@ def pred_output():
 
     for k in cv_std_result:
         df_cv_std_result.loc[len(df_cv_std_result)] = k
-    df_cv_mean_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv_std.tsv".format(representation_name),sep="\t",index=None)
+    df_cv_std_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv_std.tsv".format(representation_name),sep="\t",index=None)
 
 print(datetime.now())      
 
