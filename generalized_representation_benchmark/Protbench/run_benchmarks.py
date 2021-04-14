@@ -51,8 +51,8 @@ if args.similarity or args.all:
     # Entry (UNIPROT Entry_ID) and Vector (the representation vector belongs to that protein)
     smc.protein_names = smc.representation_dataframe['Entry'].tolist()
     smc.similarity_tasks = args.similarity_tasks
-    smc.calculate_all_correlations()
     smc.detailed_output = args.detailed_output
+    smc.calculate_all_correlations()
 if args.function_prediction or args.all:
     print("\n\n Ontology Based Protein Function Prediction Started...\n")
     gp.aspect_type = args.function_prediction_aspect

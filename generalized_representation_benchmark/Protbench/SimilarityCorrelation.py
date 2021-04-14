@@ -115,9 +115,9 @@ def calculateCorrelationforOntology(aspect,matrix_type):
     manhattan_distance_list = [value[2] for value in similarity_listRet]
     euclidian_distance_list = [value[3] for value in similarity_listRet]
 
-    distance_lists = [real_distance_list,cosine_distance_list,manhattan_distance_list,euclidian_distance_list ]
+    distance_lists = [real_distance_list,cosine_distance_list,manhattan_distance_list,euclidian_distance_list]
     if detailed_output:
-        report_detailed_distance_scores(representation_name,similarity_matrix_type,aspect,distance_lists)
+        report_detailed_distance_scores(representation_name,matrix_type,aspect,distance_lists)
     
     cosineCorr = spearmanr(real_distance_list, cosine_distance_list)
     manhattanCorr = spearmanr(real_distance_list, manhattan_distance_list)
@@ -130,7 +130,7 @@ def calculateCorrelationforOntology(aspect,matrix_type):
     return (cosineCorr,manhattanCorr,euclidianCorr)
 
 def report_detailed_distance_scores(representation_name,similarity_matrix_type,aspect,distance_lists):
-    saveFileName = "../results/Detailed_Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+"_"+aspect".pkl"
+    saveFileName = "../results/Detailed_Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+"_"+aspect+".pkl"
     with open(saveFileName, "wb") as f:
             pickle.dump(distance_lists, f)
 
