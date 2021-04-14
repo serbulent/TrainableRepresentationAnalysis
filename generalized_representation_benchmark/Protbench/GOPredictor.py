@@ -104,8 +104,12 @@ def MultiLabelSVC_cross_val_predict(representation_name, dataset, X, y, classifi
     means = list(np.mean([acc_cv,f1_mi_cv,f1_ma_cv,f1_we_cv,pr_mi_cv,pr_ma_cv,pr_we_cv,rc_mi_cv,rc_ma_cv,rc_we_cv,hamm_cv], axis=1))
     means = [np.round(i,decimals=5) for i in means]
 
+    stds = list(np.std([acc_cv,f1_mi_cv,f1_ma_cv,f1_we_cv,pr_mi_cv,pr_ma_cv,pr_we_cv,rc_mi_cv,rc_ma_cv,rc_we_cv,hamm_cv], axis=1))
+    stds = [np.round(i,decimals=5) for i in stds]
+
     return ([representation_name+"_"+dataset,acc_cv,f1_mi_cv,f1_ma_cv,f1_we_cv,pr_mi_cv,pr_ma_cv,pr_we_cv,rc_mi_cv,rc_ma_cv,rc_we_cv,hamm_cv],\
             [representation_name+"_"+dataset]+means,\
+            [representation_name+"_"+dataset]+stds,\
             y_pred)
    
 def ProtDescModel():   
@@ -121,6 +125,8 @@ def ProtDescModel():
         filtered_datasets = [dataset for dataset in datasets if aspect_type in dataset and dataset_type in dataset]
     cv_results = []
     cv_mean_results = []
+    cv_std_results = []
+
     for dt in tqdm(filtered_datasets,total=len(filtered_datasets)):
         print(r"Protein function prediction started for data set {0}".format(dt.split(".")[0]))
         dt_file = pd.read_csv(r"../data/auxilary_input/GO_datasets/{0}".format(dt),sep="\t")
@@ -138,13 +144,14 @@ def ProtDescModel():
         model = MultiLabelSVC_cross_val_predict(representation_name, dt.split(".")[0], dt_X, dt_y, classifier=BinaryRelevance(SGDClassifier(n_jobs=cpu_number, random_state=42)))
         cv_results.append(model[0])                
         cv_mean_results.append(model[1])
-        
+        cv_std_results.append(model[2])
+
         predictions = dt_merge.iloc[:,:6]
-        predictions["predicted_values"] = list(model[2].toarray())
+        predictions["predicted_values"] = list(model[3].toarray())
         if detailed_output:
             predictions.to_csv(r"../results/{0}_{1}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
 
-    return (cv_results, cv_mean_results)             
+    return (cv_results, cv_mean_results,cv_std_results)             
 
 #def pred_output(representation_name, desc_dim):
 def pred_output():
@@ -172,6 +179,21 @@ def pred_output():
     for j in cv_mean_result:
         df_cv_mean_result.loc[len(df_cv_mean_result)] = j
     df_cv_mean_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv_mean.tsv".format(representation_name),sep="\t",index=None)
+
+#save std deviation of scores to file
+    cv_std_result = model[2]
+    df_cv_std_result =  pd.DataFrame({"Model": pd.Series([], dtype='str') ,"Accuracy": pd.Series([], dtype='float'),"F1_Micro": pd.Series([], dtype='float'),\
+            "F1_Macro": pd.Series([], dtype='float'),"F1_Weighted": pd.Series([], dtype='float'),"Precision_Micro": pd.Series([], dtype='float'),\
+            "Precision_Macro": pd.Series([], dtype='float'),"Precision_Weighted": pd.Series([], dtype='float'),"Recall_Micro": pd.Series([], dtype='float'),\
+            "Recall_Macro": pd.Series([], dtype='float'),"Recall_Weighted": pd.Series([], dtype='float'),"Hamming_Distance": pd.Series([], dtype='float')})
+
+    
+    #pd.DataFrame(columns=["Model","Accuracy","F1_Micro","F1_Macro","F1_Weighted","Precision_Micro","Precision_Macro","Precision_Weighted",\
+    #                                     "Recall_Micro","Recall_Macro","Recall_Weighted","Hamming_Distance"])
+
+    for k in cv_std_result:
+        df_cv_std_result.loc[len(df_cv_std_result)] = k
+    df_cv_mean_result.to_csv(r"../results/Ontology_based_function_prediction_{0}_5cv_std.tsv".format(representation_name),sep="\t",index=None)
 
 print(datetime.now())      
 

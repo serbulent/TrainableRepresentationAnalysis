@@ -52,6 +52,7 @@ if args.similarity or args.all:
     smc.protein_names = smc.representation_dataframe['Entry'].tolist()
     smc.similarity_tasks = args.similarity_tasks
     smc.calculate_all_correlations()
+    smc.detailed_output = args.detailed_output
 if args.function_prediction or args.all:
     print("\n\n Ontology Based Protein Function Prediction Started...\n")
     gp.aspect_type = args.function_prediction_aspect
