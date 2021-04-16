@@ -136,7 +136,7 @@ def report_detailed_distance_scores(representation_name,similarity_matrix_type,a
 
 def calculate_all_correlations():
     task_list = []
-    if similarity_tasks == "All":
+    if similarity_tasks == "All_Sims":
         task_list = ["Sparse","200","500","All"]
     else:
         task_list.append(similarity_tasks)
@@ -146,7 +146,6 @@ def calculate_all_correlations():
         f = open(saveFileName,'w')
         f.write(buffer)
         for aspect in ["MF","BP","CC"]:
-            #print(saveFileName)
             corr =  calculateCorrelationforOntology(aspect,similarity_matrix_type) 
             buffer = "" + aspect + ","+ str(corr[0][0].round(decimals=5))+ ","+ str(corr[0][1].round(decimals=5))+ ","+ str(corr[1][0].round(decimals=5))\
             + ","+ str(corr[1][1].round(decimals=5))+ ","+ str(corr[2][0].round(decimals=5))+ ","+ str(corr[2][1].round(decimals=5))+"\n" 

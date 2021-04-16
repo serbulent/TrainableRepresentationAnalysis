@@ -14,7 +14,7 @@ parser.add_argument("-f", "--function_prediction", action='store_true', help="Pr
 parser.add_argument("-aff", "--affinity_prediction", action='store_true', help="Protein affinity prediction benchmark")
 parser.add_argument("-a", "--all", action='store_true',  help="Run all benchmarks")
 parser.add_argument("-d","--detailed_output", action='store_true', help="Save detailed outputs for tasks")
-parser.add_argument("-sts","--similarity_tasks", choices= ["Sparse","200","500","All"], default='Sparse')
+parser.add_argument("-sts","--similarity_tasks", choices= ["Sparse","200","500","All","All_Sims"], default='Sparse')
 parser.add_argument("-fpa","--function_prediction_aspect", choices= ["MF","BP","CC","All_Aspects"], default='All_Aspects')
 parser.add_argument("-fpd","--function_prediction_dataset", choices= ["High","Middle","Low","All_Data_Sets"], default='Low')
 parser.add_argument("-rf", "--representation_file", required=True,  help="File name of the representation - It should be a pandas dataframe in pickle format which includes 'Entry' and 'Vector' columns ")
@@ -45,10 +45,6 @@ if args.similarity or args.all:
     print("\n\nProtein Similarity Calculation Started...\n")
     smc.representation_dataframe = representation_dataframe
     smc.representation_name = args.representation_name
-    smc.representation_dataframe = representation_dataframe
-    smc.representation_name = args.representation_name
-    # The representation should be a pickle object which is a dataframe consists of two coloumns
-    # Entry (UNIPROT Entry_ID) and Vector (the representation vector belongs to that protein)
     smc.protein_names = smc.representation_dataframe['Entry'].tolist()
     smc.similarity_tasks = args.similarity_tasks
     smc.detailed_output = args.detailed_output
