@@ -44,11 +44,21 @@ def parallelSimilarity(paramList):
             cos = cosine(prot1vec.reshape(1,-1),prot2vec.reshape(1,-1)).item()
             manhattanDist = cdist(prot1vec.reshape(1,-1), prot2vec.reshape(1,-1), 'cityblock')
             manhattanDistNorm = manhattanDist/(norm(prot1vec,1) + norm(prot2vec,1))
+            manhattanSim = 1-manhattanDistNorm.item()
+            if (norm(prot1vec,1)==0 and norm(prot2vec,1) == 0):
+                manhattanSim = 1.0
+                #print((protein1,protein2))
+                #print(manhattanDist)
+                #print(norm(prot1vec,1))
+                #print(norm(prot2vec,1))
             euclideanDist = cdist(prot1vec.reshape(1,-1), prot2vec.reshape(1,-1), 'euclidean')
-            euclideanDistNorm = euclideanDist/(norm(prot1vec,2) + norm(prot2vec,2)) 
+            euclideanDistNorm = euclideanDist/(norm(prot1vec,2) + norm(prot2vec,2))
+            euclidianSim =  1-euclideanDistNorm.item()
+            if (norm(prot1vec,1)==0 and norm(prot2vec,1) == 0):
+                euclidianSim = 1.0
             real = paramList[3]
             # To ensure real and calculated values appended to same postion they saved similtanously and then decoupled
-            similarity_list.append((real,cos,1-manhattanDistNorm.item(),1-euclideanDistNorm.item()))
+            similarity_list.append((real,cos,manhattanSim ,euclidianSim))
     return similarity_list
 
 def calculateCorrelationforOntology(aspect,matrix_type):
@@ -107,6 +117,7 @@ def calculateCorrelationforOntology(aspect,matrix_type):
     #parallelSimilarityPartial = partial(parallelSimilarity,protein_embedding_type)
     for similarity_listRet in tqdm(pool.imap_unordered(parallelSimilarity,protParamListNew), total=total_task_num , position=0, leave=True ):
         pass
+        #time.sleep(0.1)
     pool.close()
     pool.join()
 
@@ -139,7 +150,7 @@ def calculate_all_correlations():
     if similarity_tasks == "All_Sims":
         task_list = ["Sparse","200","500","All"]
     else:
-        task_list.append(similarity_tasks)
+        task_list = similarity_tasks
     for similarity_matrix_type in task_list:
         saveFileName = "../results/Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+".csv"
         buffer = "Semantic Aspect,CosineSim_Correlation,CosineSim_Correlation p-value, ManhattanSim_Correlation,ManhattanSim_Correlation p-value, EuclidianSim_Correlation,EuclidianSim_Correlation p-value \n"
@@ -147,8 +158,8 @@ def calculate_all_correlations():
         f.write(buffer)
         for aspect in ["MF","BP","CC"]:
             corr =  calculateCorrelationforOntology(aspect,similarity_matrix_type) 
-            buffer = "" + aspect + ","+ str(corr[0][0].round(decimals=5))+ ","+ str(corr[0][1].round(decimals=5))+ ","+ str(corr[1][0].round(decimals=5))\
-            + ","+ str(corr[1][1].round(decimals=5))+ ","+ str(corr[2][0].round(decimals=5))+ ","+ str(corr[2][1].round(decimals=5))+"\n" 
+            buffer = "" + aspect + ","+ str(round(corr[0][0],5))+ ","+ str(round(corr[0][1],5))+ ","+ str(round(corr[1][0],5))\
+            + ","+ str(round(corr[1][1],5))+ ","+ str(round(corr[2][0],5))+ ","+str(round(corr[2][1],5))+"\n" 
             f = open(saveFileName,'a')
             f.write(buffer)
             f.close()

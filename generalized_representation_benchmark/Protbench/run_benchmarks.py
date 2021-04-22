@@ -14,7 +14,7 @@ parser.add_argument("-f", "--function_prediction", action='store_true', help="Pr
 parser.add_argument("-aff", "--affinity_prediction", action='store_true', help="Protein affinity prediction benchmark")
 parser.add_argument("-a", "--all", action='store_true',  help="Run all benchmarks")
 parser.add_argument("-d","--detailed_output", action='store_true', help="Save detailed outputs for tasks")
-parser.add_argument("-sts","--similarity_tasks", choices= ["Sparse","200","500","All","All_Sims"], default='Sparse')
+parser.add_argument("-sts","--similarity_tasks", choices= ["Sparse","200","500","All","All_Sims"], default='Sparse', nargs="+" )
 parser.add_argument("-fpa","--function_prediction_aspect", choices= ["MF","BP","CC","All_Aspects"], default='All_Aspects')
 parser.add_argument("-fpd","--function_prediction_dataset", choices= ["High","Middle","Low","All_Data_Sets"], default='Low')
 parser.add_argument("-rf", "--representation_file", required=True,  help="File name of the representation - It should be a pandas dataframe in pickle format which includes 'Entry' and 'Vector' columns ")
