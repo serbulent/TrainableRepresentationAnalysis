@@ -104,7 +104,10 @@ def predictAffinityWithModel(regressor_model,multiplied_vectors_df):
     validation_corr_pval_list = []
 
     data = np.array(np.asarray(multiplied_vectors_df["Vector"].tolist()), dtype=float)
-    target = np.array(ppi_affinity_df["Affinity"])
+    ppi_affinity_filtered_df = ppi_affinity_df\
+    [ppi_affinity_df['Protein1'].isin(multiplied_vectors_df['Protein1']) &\
+     ppi_affinity_df['Protein2'].isin(multiplied_vectors_df['Protein2']) ]
+    target = np.array(ppi_affinity_filtered_df["Affinity"])
     scaler = MinMaxScaler()
     scaler.fit(target.reshape(-1, 1))
     target = scaler.transform(target.reshape(-1, 1))[:, 0]
@@ -162,16 +165,18 @@ def calculate_vector_multiplications(skempi_vectors_df):
                                        'Protein2': pd.Series([], dtype='str'),\
                                        'Vector': pd.Series([], dtype='object')}) 
     print("Element-wise vector multiplications are calculating")
+    rep_prot_list = list(skempi_vectors_df['PDB_ID'])
     for index,row in tqdm.tqdm(ppi_affinity_df.iterrows()):
-        vec1 = list(skempi_vectors_df[skempi_vectors_df['PDB_ID']\
-                                             == row['Protein1']]['Vector'])[0]
-        vec2 = list(skempi_vectors_df[skempi_vectors_df['PDB_ID']\
-                                             == row['Protein2']]['Vector'])[0]
-        multiplied_vec = np.multiply(vec1,vec2)
+        if row['Protein1'] in rep_prot_list and row['Protein2'] in rep_prot_list:
+            vec1 = list(skempi_vectors_df[skempi_vectors_df['PDB_ID']\
+                                                 == row['Protein1']]['Vector'])[0]
+            vec2 = list(skempi_vectors_df[skempi_vectors_df['PDB_ID']\
+                                                 == row['Protein2']]['Vector'])[0]
+            multiplied_vec = np.multiply(vec1,vec2)
 
-        multiplied_vectors = multiplied_vectors.\
-            append({'Protein1':row['Protein1'], 'Protein2':row['Protein2'],\
-                    'Vector':multiplied_vec},ignore_index = True)
+            multiplied_vectors = multiplied_vectors.\
+                append({'Protein1':row['Protein1'], 'Protein2':row['Protein2'],\
+                        'Vector':multiplied_vec},ignore_index = True)
     return multiplied_vectors
 
 def predict_affinities_and_report_results():
