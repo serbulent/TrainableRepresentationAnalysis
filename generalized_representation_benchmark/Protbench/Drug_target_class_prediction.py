@@ -19,24 +19,78 @@ import pandas as pd
 from numpy import save
 from sklearn.metrics import precision_recall_fscore_support
 from tqdm import tqdm
-from decimal import *
-getcontext().prec = 5
+from sklearn.metrics import accuracy_score
+import math
 
 
 representation_name = ""
 representation_path = ""
 detailed_output = False
 
+def convert_dataframe_to_multi_col(representation_dataframe):
+    entry = pd.DataFrame(representation_dataframe['Entry'])
+    vector = pd.DataFrame(list(representation_dataframe['Vector']))
+    multi_col_representation_vector = pd.merge(left=entry,right=vector,left_index=True, right_index=True)
+    return multi_col_representation_vector
+
+def class_based_scores(c_report, c_matrix):
+    c_report = pd.DataFrame(c_report).transpose()
+    #print(c_report)
+    c_report = c_report.drop(['precision', 'recall'], axis=1)
+    c_report = c_report.drop(labels=['accuracy', 'macro avg', 'weighted avg'], axis=0)
+    cm = c_matrix.astype('float') / c_matrix.sum(axis=1)[:, np.newaxis]
+    #print(c_report)
+    accuracy = cm.diagonal()
+    
+    #print(accuracy)
+    #if len(accuracy) == 6:
+     #   accuracy = np.delete(accuracy, 5)
+
+    accuracy = pd.Series(accuracy, index=c_report.index)
+    c_report['accuracy'] = accuracy
+    
+    total = c_report['support'].sum()
+    #print(total)
+    num_classes = np.shape(c_matrix)[0]
+    mcc = np.zeros(shape=(num_classes,), dtype='float32')
+    weights = np.sum(c_matrix, axis=0)/np.sum(c_matrix)
+
+    for j in range(num_classes):
+        tp = np.sum(c_matrix[j, j])
+        fp = np.sum(c_matrix[j, np.concatenate((np.arange(0, j), np.arange(j+1, num_classes)))])
+        fn = np.sum(c_matrix[np.concatenate((np.arange(0, j), np.arange(j+1, num_classes))), j])
+        tn = int(total - tp - fp - fn)
+        #print(tp,fp,fn,tn)
+        mcc[j] = ((tp*tn)-(fp*fn))/math.sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn))
+    #print(mcc)
+    #if len(mcc) == 6:
+     #   mcc = np.delete(mcc, 5)
+
+    mcc = pd.Series(mcc, index=c_report.index)
+    c_report['mcc'] = mcc
+    #c_report.to_excel('../result/results_class_based_uc50.xlsx')
+    #print(c_report)
+    return c_report
+
+
+
 def score_protein_rep():
+#def score_protein_rep(pkl_data_path):
 
     vecsize = 0
-    protein_list = pd.read_csv('../data/auxilary_input/entry_class.csv')
+    #protein_list = pd.read_csv('../data/auxilary_input/entry_class.csv')
+    protein_list = pd.read_csv('entry_class_nn.csv')
     dataframe = pd.read_csv(representation_path)
+    #dataframe = convert_dataframe_to_multi_col(dataframe)    
+    #dataframe = pd.read_pickle(pkl_data_path)
     vecsize = dataframe.shape[1]-1    
     x = np.empty([0, vecsize])
+    xemp = np.zeros((1, vecsize), dtype=float)
     y = []
-    print("\n\nPreprocess data for drug target protein family prediction (class based)...\n")
-    for index, row in tqdm(protein_list.iterrows(), total=len(protein_list)) :
+    ne = []
+
+    print("\n\nPreprocess data for drug-target protein family prediction ...\n ")
+    for index, row in tqdm(protein_list.iterrows(), total=len(protein_list)):
         pdrow = dataframe.loc[dataframe['Entry'] == row['Entry']]
         if len(pdrow) != 0:
             a = pdrow.loc[ : , pdrow.columns != 'Entry']
@@ -44,115 +98,112 @@ def score_protein_rep():
             a.shape = (1,vecsize)
             x = np.append(x, a, axis=0)
             y.append(row['Class'])
+        else:
+            ne.append(index)
+            x = np.append(x, xemp, axis=0,)
+            y.append(0.0)
+            #print(index)
 
     x = x.astype(np.float64)
     y = np.array(y)
     y = y.astype(np.float64)
-    
+    #print(len(y))
     scoring = ['precision_weighted', 'recall_weighted', 'f1_weighted', 'accuracy']
     target_names = ['Enzyme', 'Membrane receptor', 'Transcription factor', 'Ion channel', 'Other']
     labels = [1.0, 11.0, 12.0, 1005.0, 2000.0]
     
+    f1 = []
+    accuracy = []
+    mcc = []
     f1_perclass = []
-    accurac_perclass = []
+    ac_perclass = []
     mcc_perclass = []
-    mcc1 = []
-    mcc11 = []
-    mcc12 = []
-    mcc1005 = []
-    mcc2000 = []
-    
-    print('Calculating family predictions... (class based)\n')
-    for i in tqdm(range(100)):
-        y1 = np.empty([0])
-        y11 = np.empty([0])
-        y12 = np.empty([0])
-        y1005 = np.empty([0])
-        y2000 = np.empty([0])
-        
-        X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.33, stratify=y,random_state=i)
-        testsize = np.size(X_test,0)
-        
-        X_train = X_train.astype(np.float64)
-        X_test = X_test.astype(np.float64)
-        y_train = y_train.astype(np.float64)
-        y_test = y_test.astype(np.float64)
-        
-        for i in range(testsize):
-            if y_test[i] == 1:
-                y1 = np.append(y1 ,y_test[i])
-            else:
-                y1 = np.append(y1 ,0)
-            if y_test[i] == 11:
-                y11 = np.append(y11 ,y_test[i])
-            else:
-                y11 = np.append(y11 ,0)
-            if y_test[i] == 12:
-                y12 = np.append(y12 ,y_test[i])
-            else:
-                y12 = np.append(y12 ,0)
-            if y_test[i] == 1005:
-                y1005 = np.append(y1005 ,y_test[i])
-            else:
-                y1005 = np.append(y1005 ,0)
-            if y_test[i] == 2000:
-                y2000 = np.append(y2000 ,y_test[i])
-            else:
-                 y2000 = np.append(y2000 ,0)
-        
-        clf = linear_model.SGDClassifier(class_weight="balanced", loss="log", penalty="elasticnet", max_iter=1000, tol=1e-3,n_jobs=-1,random_state=i)
-        clf2 = OneVsRestClassifier(clf,n_jobs=-1).fit(X_train, y_train)
-        y_pred = clf2.predict(X_test)
+    sup_perclass = []
+    report_list = []
+    train_index = pd.read_csv('indexes/uniclust15_trainindex.csv')
+    test_index = pd.read_csv('indexes/testindex15.csv')
 
-        f1 = f1_score(y_test, y_pred, labels=labels, average=None)
-        f1_perclass.append(f1.round(decimals=2))
-        
-        cm = confusion_matrix(y_test, y_pred)
-        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
-        accuracy = cm.diagonal()
-        accurac_perclass.append(accuracy.round(decimals=2))
-        
-        pred_data = clf2.predict(X_test)
-        
-        mcc1.append(matthews_corrcoef(y1, pred_data))
-        mcc11.append(matthews_corrcoef(y11, pred_data))
-        mcc12.append(matthews_corrcoef(y12, pred_data))
-        mcc1005.append(matthews_corrcoef(y1005, pred_data))
-        mcc2000.append(matthews_corrcoef(y2000, pred_data))
-        
-    mcc1 = np.array(mcc1)
-    mcc11 = np.array(mcc11)
-    mcc12 = np.array(mcc12)
-    mcc1005 = np.array(mcc1005)
-    mcc2000 = np.array(mcc2000)
+    train_index = train_index.dropna(axis=1) 
+    test_index = test_index.dropna(axis=1)
+    #print(train_index)
+    #for index in ne:
+       
+
+
+    print('Calculating family predictions...\n')
+    for i in tqdm(range(10)): 
+        clf = linear_model.SGDClassifier(class_weight="balanced", loss="log", penalty="elasticnet", max_iter=1000, tol=1e-3,random_state=i,n_jobs=-1)
+        clf2 = OneVsRestClassifier(clf,n_jobs=-1)
+        #print(test_index)
+        train_indexx = train_index.iloc[i].astype(int)
+        test_indexx = test_index.iloc[i].astype(int)
+        #print(train_indexx)
+        #train_indexx.drop(labels=ne)
+        #print(type(train_indexx))
+        for index in ne:
+            
+            train_indexx = train_indexx[train_indexx!=index]
+            test_indexx = test_indexx[test_indexx!=index]
+            
+
+
+        train_X, test_X = x[train_indexx], x[test_indexx]
+        train_y, test_y = y[train_indexx], y[test_indexx]
+
+        clf2.fit(train_X, train_y)    
+            
+        #print(train_X)
+        y_pred = clf2.predict(test_X)
+           
+        #y_pred = cross_val_predict(clf2, x, y, cv=10, n_jobs=-1)
+        mcc.append(matthews_corrcoef(test_y, y_pred, sample_weight = test_y))
+        f1_ = f1_score(test_y, y_pred, average='weighted')
+        f1.append(f1_)
+        ac = accuracy_score(test_y, y_pred)
+        accuracy.append(ac)
+        c_report = classification_report(test_y, y_pred, target_names=target_names, output_dict=True)
+        c_matrix = confusion_matrix(test_y, y_pred, labels=labels)
+        class_report = class_based_scores(c_report, c_matrix)
+        #print(class_report)
+        f1_perclass.append(class_report['f1-score'])
+        ac_perclass.append(class_report['accuracy'])
+        mcc_perclass.append(class_report['mcc'])
+        sup_perclass.append(class_report['support'])
+        report_list.append(class_report)
+
+    f1_perclass = pd.concat(f1_perclass, axis=1)
+    ac_perclass = pd.concat(ac_perclass, axis=1)
+    mcc_perclass = pd.concat(mcc_perclass, axis=1)
+    sup_perclass = pd.concat(sup_perclass, axis=1)
     
-    mcc_perclass.append(mcc1.round(decimals=2))
-    mcc_perclass.append(mcc11.round(decimals=2))
-    mcc_perclass.append(mcc12.round(decimals=2))
-    mcc_perclass.append(mcc1005.round(decimals=2))
-    mcc_perclass.append(mcc2000.round(decimals=2))
-    
-    #report = pd.DataFrame(result).transpose()
-    report = pd.DataFrame()
-    f1means = np.mean(f1_perclass, axis=0)
-    acmeans = np.mean(accurac_perclass, axis=0)
-    labels = ['Enzyme', 'Membrane receptor', 'Transcription factor', 'Ion channel', 'Other', 'Weighted Average']
-    f1s = [f1means[0], f1means[1], f1means[2], f1means[3], f1means[4], np.average(f1means, weights=[len(y1), len(y11), len(y12), len(y1005), len(y2000)])]
-    mccs = [mcc1.mean(), mcc11.mean(), mcc12.mean(), mcc1005.mean(), mcc2000.mean(), np.average([mcc1.mean(),  mcc11.mean(), mcc12.mean(), mcc1005.mean(), mcc2000.mean()], weights=[len(y1), len(y11), len(y12), len(y1005), len(y2000)])]
-    accuracys = [acmeans[0], acmeans[1], acmeans[2], acmeans[3], acmeans[4], np.average(acmeans, weights=[len(y1), len(y11), len(y12), len(y1005), len(y2000)])]
-    report['Families'] = labels
-    report['F1_Score'] = [i.round(decimals=5) for i in f1s]
-    report['Accuracy'] = [i.round(decimals=5) for i in accuracys]
-    report['MCC'] = [i.round(decimals=5) for i in  mccs]
-    report.to_csv('../results/dt_prot_famliy_pred_'+representation_name+'_report_class_based.csv',index=False)
-    
-    #print(report)
+    report_list = pd.concat(report_list, axis=1)
+    report_list.to_excel('../result/' + representation_name + '_results_class_based_uc15.xlsx')
+
+
+    report = pd.DataFrame()    
+    f1mean = np.mean(f1, axis=0)
+    #print(f1mean)
+    f1mean = f1mean.round(decimals=5)
+    f1std = np.std(f1).round(decimals=5)
+    acmean = np.mean(accuracy, axis=0).round(decimals=5)
+    acstd = np.std(accuracy).round(decimals=5)
+    mccmean = np.mean(mcc, axis=0).round(decimals=5)
+    mccstd = np.std(mcc).round(decimals=5)
+    labels = ['Average Score', 'Standard Deviation']
+    report['Protein Family'] = labels
+    report['F1_score'] = [f1mean, f1std]
+    report['Accuracy'] = [acmean, acstd]
+    report['MCC'] = [mccmean, mccstd]
+    report.to_csv('../result/dt_prot_famliy_pred_'+representation_name+'_report_uc15.csv',index=False)
+    #report.to_csv('scores_general.csv')
+    #print(report)   
     if detailed_output:
-        save('../results/drug_target_family_pred_f1_perclass_'+ representation_name +'.npy', f1_perclass)
-        save('../results/drug_target_family_pred_accuracy_perclass_'+ representation_name +'.npy', accurac_perclass)
-        save('../results/drug_target_family_pred_mcc_perclass_'+ representation_name +'.npy', mcc_perclass) 
-        #save('../results/drug_target_family_pred_y_pred_'+ representation_name +'.npy', y_pred) 
-
+        save('../result/drug_target_family_pred_f1_'+ representation_name +'_uc15.npy', f1)
+        save('../result/drug_target_family_pred_accuracy_'+ representation_name +'_uc15.npy', accuracy)
+        save('../result/drug_target_family_pred_mcc_'+ representation_name +'_uc15.npy', mcc) 
+        save('../result/drug_target_family_pred_class_based_f1_'+ representation_name +'_uc15.npy', f1_perclass)
+        save('../result/drug_target_family_pred_class_based_accuracy_'+ representation_name +'_uc15.npy', ac_perclass)
+        save('../result/drug_target_family_pred_class_based_mcc_'+ representation_name +'_uc15.npy', mcc_perclass) 
+        save('../result/drug_target_family_pred_class_based_support_'+ representation_name +'_uc15.npy', sup_perclass) 
 #score_protein_rep("embedding_dataframes/SeqVec_dataframe_multi_col.pkl")
-
 
