@@ -23,10 +23,9 @@ from sklearn.metrics import accuracy_score
 import math
 
 
-representation_name = ""
+representation_name = "AAC"
 representation_path = ""
-dataset = "uc50"
-detailed_output = False
+detailed_output = True
 
 def convert_dataframe_to_multi_col(representation_dataframe):
     entry = pd.DataFrame(representation_dataframe['Entry'])
@@ -69,7 +68,7 @@ def class_based_scores(c_report, c_matrix):
 
     mcc = pd.Series(mcc, index=c_report.index)
     c_report['mcc'] = mcc
-    #c_report.to_excel('../result/results_class_based_'+dataset+'.xlsx')
+    #c_report.to_excel('../result/results_class_based_uc50.xlsx')
     #print(c_report)
     return c_report
 
@@ -81,7 +80,7 @@ def score_protein_rep():
     vecsize = 0
     #protein_list = pd.read_csv('../data/auxilary_input/entry_class.csv')
     protein_list = pd.read_csv('entry_class_nn.csv')
-    dataframe = pd.read_csv(representation_path)
+    dataframe = pd.read_csv('/media/DATA/serbulent/DATA/Thesis/ReviewPaper/results/representation_vectors/representation_vector_dataframes/revision-1/AAC_UNIPROT_HUMAN.csv')
     #dataframe = convert_dataframe_to_multi_col(dataframe)    
     #dataframe = pd.read_pickle(pkl_data_path)
     vecsize = dataframe.shape[1]-1    
@@ -121,36 +120,36 @@ def score_protein_rep():
     mcc_perclass = []
     sup_perclass = []
     report_list = []
-    train_index = pd.read_csv('indexes/uniclust30_trainindex.csv')
-    test_index = pd.read_csv('indexes/testindex30.csv')
+    #train_index = pd.read_csv('indexes/uniclust15_trainindex.csv')
+    #test_index = pd.read_csv('indexes/testindex15.csv')
 
-    train_index = train_index.dropna(axis=1) 
-    test_index = test_index.dropna(axis=1)
+    #train_index = train_index.dropna(axis=1) 
+    #test_index = test_index.dropna(axis=1)
     #print(train_index)
     #for index in ne:
        
 
-    conf = pd.DataFrame()
 
     print('Calculating family predictions...\n')
     for i in tqdm(range(10)): 
         clf = linear_model.SGDClassifier(class_weight="balanced", loss="log", penalty="elasticnet", max_iter=1000, tol=1e-3,random_state=i,n_jobs=-1)
         clf2 = OneVsRestClassifier(clf,n_jobs=-1)
         #print(test_index)
-        train_indexx = train_index.iloc[i].astype(int)
-        test_indexx = test_index.iloc[i].astype(int)
+        #train_indexx = train_index.iloc[i].astype(int)
+        #test_indexx = test_index.iloc[i].astype(int)
         #print(train_indexx)
         #train_indexx.drop(labels=ne)
         #print(type(train_indexx))
-        for index in ne:
+        #for index in ne:
             
-            train_indexx = train_indexx[train_indexx!=index]
-            test_indexx = test_indexx[test_indexx!=index]
+          #  train_indexx = train_indexx[train_indexx!=index]
+         #   test_indexx = test_indexx[test_indexx!=index]
             
 
 
-        train_X, test_X = x[train_indexx], x[test_indexx]
-        train_y, test_y = y[train_indexx], y[test_indexx]
+        #train_X, test_X = x[train_indexx], x[test_indexx]
+        #train_y, test_y = y[train_indexx], y[test_indexx]
+        train_X, test_X, train_y, test_y = train_test_split(x, y, test_size=0.1, stratify=y,random_state=i)
 
         clf2.fit(train_X, train_y)    
             
@@ -165,8 +164,6 @@ def score_protein_rep():
         accuracy.append(ac)
         c_report = classification_report(test_y, y_pred, target_names=target_names, output_dict=True)
         c_matrix = confusion_matrix(test_y, y_pred, labels=labels)
-
-        conf = conf.append(pd.DataFrame(c_matrix, columns=['Enzymes', 'Membrane receptor', 'Transcription factor', 'Ion channel', 'Other']), ignore_index=True) 
         class_report = class_based_scores(c_report, c_matrix)
         #print(class_report)
         f1_perclass.append(class_report['f1-score'])
@@ -174,9 +171,6 @@ def score_protein_rep():
         mcc_perclass.append(class_report['mcc'])
         sup_perclass.append(class_report['support'])
         report_list.append(class_report)
-    
-    conf.to_csv('../result/confusion'+representation_name+'_'+dataset+'.csv', index=None)
-    
 
     f1_perclass = pd.concat(f1_perclass, axis=1)
     ac_perclass = pd.concat(ac_perclass, axis=1)
@@ -184,7 +178,7 @@ def score_protein_rep():
     sup_perclass = pd.concat(sup_perclass, axis=1)
     
     report_list = pd.concat(report_list, axis=1)
-    report_list.to_excel('../result/' + representation_name + '_results_class_based_'+dataset+'.xlsx')
+    report_list.to_excel('../result/' + representation_name + '_results_class_based_nc.xlsx')
 
 
     report = pd.DataFrame()    
@@ -201,17 +195,16 @@ def score_protein_rep():
     report['F1_score'] = [f1mean, f1std]
     report['Accuracy'] = [acmean, acstd]
     report['MCC'] = [mccmean, mccstd]
-
-    report.to_csv('../result/dt_prot_famliy_pred_'+representation_name+'_report_'+dataset+'.csv',index=False)
+    report.to_csv('../result/dt_prot_famliy_pred_'+representation_name+'_report_nc.csv',index=False)
     #report.to_csv('scores_general.csv')
     #print(report)   
     if detailed_output:
-        save('../result/drug_target_family_pred_f1_'+ representation_name +'_'+dataset+'.npy', f1)
-        save('../result/drug_target_family_pred_accuracy_'+ representation_name +'_'+dataset+'.npy', accuracy)
-        save('../result/drug_target_family_pred_mcc_'+ representation_name +'_'+dataset+'.npy', mcc) 
-        save('../result/drug_target_family_pred_class_based_f1_'+ representation_name +'_'+dataset+'.npy', f1_perclass)
-        save('../result/drug_target_family_pred_class_based_accuracy_'+ representation_name +'_'+dataset+'.npy', ac_perclass)
-        save('../result/drug_target_family_pred_class_based_mcc_'+ representation_name +'_'+dataset+'.npy', mcc_perclass) 
-        save('../result/drug_target_family_pred_class_based_support_'+ representation_name +'_'+dataset+'.npy', sup_perclass) 
-#score_protein_rep("embedding_dataframes/SeqVec_dataframe_multi_col.pkl")
+        save('../result/drug_target_family_pred_f1_'+ representation_name +'_nc.npy', f1)
+        save('../result/drug_target_family_pred_accuracy_'+ representation_name +'_nc.npy', accuracy)
+        save('../result/drug_target_family_pred_mcc_'+ representation_name +'_nc.npy', mcc) 
+        save('../result/drug_target_family_pred_class_based_f1_'+ representation_name +'_nc.npy', f1_perclass)
+        save('../result/drug_target_family_pred_class_based_accuracy_'+ representation_name +'_nc.npy', ac_perclass)
+        save('../result/drug_target_family_pred_class_based_mcc_'+ representation_name +'_nc.npy', mcc_perclass) 
+        save('../result/drug_target_family_pred_class_based_support_'+ representation_name +'_nc.npy', sup_perclass) 
+score_protein_rep()
 
