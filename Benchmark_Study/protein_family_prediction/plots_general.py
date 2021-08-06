@@ -8,14 +8,14 @@ import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 
 from pathlib import Path
-
+dataset = "nc"
 ac_list = []
 f1_list = []
 mcc_list = []
 representation_name_list = []
-for path in Path("../results/").glob("drug_target_family_pred_f1_[!p]*_uc50.npy"):
+for path in Path("../../result/").glob("drug_target_family_pred_f1_[!p]*_"+dataset+".npy"):
     #print(path)
-    representation_name_list.append(str(path).split("f1_")[1].split("_uc50.npy")[0])
+    representation_name_list.append(str(path).split("f1_")[1].split("_"+dataset+".npy")[0])
     f1s = np.load(path)
     df = pd.DataFrame(f1s)
     f1_list.append(df)
@@ -24,9 +24,9 @@ df_f1 = pd.concat(f1_list, axis=1)
 df_f1.columns = representation_name_list
 #df_f1 = df_f1.reindex(df_f1.mean().sort_values().index, axis=1)
 representation_name_list = []
-for path in Path("../results/").glob("drug_target_family_pred_accuracy_[!p]*_uc50.npy"):
+for path in Path("../../result/").glob("drug_target_family_pred_accuracy_[!p]*_"+dataset+".npy"):
     #print(path)i
-    representation_name_list.append(str(path).split("accuracy_")[1].split("_uc50.npy")[0])
+    representation_name_list.append(str(path).split("accuracy_")[1].split("_"+dataset+".npy")[0])
     acs = np.load(path)
     df = pd.DataFrame(acs)
     ac_list.append(df)
@@ -35,9 +35,9 @@ df_ac = pd.concat(ac_list, axis=1)
 df_ac.columns = representation_name_list
 #df_ac = df_ac.reindex(df_ac.mean().sort_values().index, axis=1)
 representation_name_list = []
-for path in Path("../results/").glob("drug_target_family_pred_mcc_[!p]*_uc50.npy"):
+for path in Path("../../result/").glob("drug_target_family_pred_mcc_[!p]*_"+dataset+".npy"):
     #print(path)
-    representation_name_list.append(str(path).split("mcc_")[1].split("_uc50.npy")[0])
+    representation_name_list.append(str(path).split("mcc_")[1].split("_"+dataset+".npy")[0])
     mccs = np.load(path)
     df = pd.DataFrame(mccs)
     mcc_list.append(df)
@@ -91,12 +91,12 @@ ax.get_xaxis().set_minor_locator(mpl.ticker.AutoMinorLocator())
 ax.get_yaxis().set_minor_locator(mpl.ticker.AutoMinorLocator())
 ax.grid(b=True, which='major', color='gainsboro', linewidth=1.0)
 ax.grid(b=True, which='minor', color='whitesmoke', linewidth=0.5)
-
+ax.set_xlim(0, 1)
 yticks = ax.get_yticks()
 for ytick in yticks:
     ax.hlines(ytick+0.5,-0.1,1,linestyles='dashed')
 
 
 set_colors_and_marks_for_representation_groups(ax)
-ax.get_figure().savefig('../results/figures/general_uc50.png')
+ax.get_figure().savefig('../../result/figures/general_'+dataset+'.png')
 

@@ -16,34 +16,34 @@ ac_list = []
 f1_list = []
 mcc_list = []
 representation_name_list = []
-for path in Path("../result/").glob("drug_target_family_pred_class_based_accuracy_*_"+ dataset +".npy"):
+for path in Path("../../result/").glob("drug_target_family_pred_class_based_accuracy_*_"+ dataset +".npy"):
     #print(path)
     representation_name_list.append(str(path).split("class_based_accuracy_")[1].split("_"+dataset+".npy")[0])
     acs = np.load(path)
     #print(acs)
-    df = pd.DataFrame(acs[:,4])
+    df = pd.DataFrame(acs[:,3])
     ac_list.append(df)
 #print(ac_list)
 df_ac = pd.concat(ac_list, axis=1)
 df_ac.columns = representation_name_list
 
 representation_name_list = []
-for path in Path("../result/").glob("drug_target_family_pred_class_based_f1_*_"+dataset+".npy"):
+for path in Path("../../result/").glob("drug_target_family_pred_class_based_f1_*_"+dataset+".npy"):
     #print(path)
     representation_name_list.append(str(path).split("class_based_f1_")[1].split("_"+dataset+".npy")[0])
     f1s = np.load(path)
-    df = pd.DataFrame(f1s[:,4])
+    df = pd.DataFrame(f1s[:,3])
     f1_list.append(df)
 
 df_f1 = pd.concat(f1_list, axis=1)
 df_f1.columns = representation_name_list
 
 representation_name_list = []
-for path in Path("../result/").glob("drug_target_family_pred_class_based_mcc_*_"+dataset+".npy"):
+for path in Path("../../result/").glob("drug_target_family_pred_class_based_mcc_*_"+dataset+".npy"):
     #print(path)
     representation_name_list.append(str(path).split("class_based_mcc_")[1].split("_"+dataset+".npy")[0])
     mccs = np.load(path)
-    df = pd.DataFrame(mccs[:,4])
+    df = pd.DataFrame(mccs[:,3])
     mcc_list.append(df)
 
 df_mcc = pd.concat(mcc_list, axis=1)
@@ -78,7 +78,7 @@ def set_colors_and_marks_for_representation_groups(ax):
             label.set_text(signed_text)
     ax.set_yticklabels(ax.get_yticklabels(), fontweight='bold')
 
-sns.set(rc={'figure.figsize':(13,18)})
+sns.set(rc={'figure.figsize':(14,20)})
 sns.set_theme(style="whitegrid", color_codes=True)
 
 ax = sns.boxplot(data=all_data, x=all_data['value'], y=all_data['variable'], hue=all_data['metric'], whis=np.inf,  orient="h")
@@ -90,11 +90,11 @@ ax.get_xaxis().set_minor_locator(mpl.ticker.AutoMinorLocator())
 ax.get_yaxis().set_minor_locator(mpl.ticker.AutoMinorLocator())
 ax.grid(b=True, which='major', color='gainsboro', linewidth=1.0)
 ax.grid(b=True, which='minor', color='whitesmoke', linewidth=0.5)
-
+ax.set_xlim(0, 1)
 yticks = ax.get_yticks()
 for ytick in yticks:
     ax.hlines(ytick+0.5,-0.1,1,linestyles='dashed')
 
 set_colors_and_marks_for_representation_groups(ax)
-ax.get_figure().savefig('../result/figures/perclass_Others_'+dataset+'.png')
+ax.get_figure().savefig('../../result/figures/perclass_Ion_channels_'+dataset+'.png')
 
