@@ -34,7 +34,7 @@ def check_for_at_least_two_class_sample_exits(y):
     return True
 
 def create_valid_kfold_object_for_multilabel_splits(X,y,kf):
-    #Buraya her bir classın en az 2 fold da bulunduğuna dair kontrol eklenecek
+    check_for_at_least_two_class_sample_exits(y)
     sample_class_occurance = dict(zip(y.columns,np.zeros(len(y.columns))))
     for column in y:
         for fold_train_index,fold_test_index in kf.split(X,y):

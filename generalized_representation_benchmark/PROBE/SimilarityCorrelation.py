@@ -146,12 +146,7 @@ def report_detailed_distance_scores(representation_name,similarity_matrix_type,a
             pickle.dump(distance_lists, f)
 
 def calculate_all_correlations():
-    task_list = []
-    if similarity_tasks == "All_Sims":
-        task_list = ["Sparse","200","500","All"]
-    else:
-        task_list = similarity_tasks
-    for similarity_matrix_type in task_list:
+    for similarity_matrix_type in similarity_tasks:
         saveFileName = "../results/Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+".csv"
         buffer = "Semantic Aspect,CosineSim_Correlation,CosineSim_Correlation p-value, ManhattanSim_Correlation,ManhattanSim_Correlation p-value, EuclidianSim_Correlation,EuclidianSim_Correlation p-value \n"
         f = open(saveFileName,'w')
