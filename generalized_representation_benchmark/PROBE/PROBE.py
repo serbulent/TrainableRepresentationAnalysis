@@ -1,9 +1,15 @@
 import yaml
+import pandas as pd
+import tqdm
+import SimilarityCorrelation as smc
+import Drug_target_class_prediction as dtcp
+import GOPredictor as gp
+import AffinityPredictor as afp
 
 with open('probe_config.yaml') as f:
-args = yaml.load(f, Loader=yaml.FullLoader)
+	args = yaml.load(f, Loader=yaml.FullLoader)
 
-if args["benchmark"] not in ["similarity","family","function","affinity","all"]
+if args["benchmark"] not in ["similarity","family","function","affinity","all"]:
         parser.error('At least one benchmark type should be selected')
 
 print(args)
@@ -31,7 +37,7 @@ if args["benchmark"] in  ["similarity","all"]:
     smc.calculate_all_correlations()
 if args["benchmark"] in  ["function","all"]:
     print("\n\n Ontology Based Protein Function Prediction Started...\n")
-    gp.aspect_type = args.["function_prediction_aspect"]
+    gp.aspect_type = args["function_prediction_aspect"]
     gp.dataset_type = args["function_prediction_dataset"]
     gp.representation_dataframe = representation_dataframe
     gp.representation_name = args["representation_name"]
@@ -40,12 +46,10 @@ if args["benchmark"] in  ["function","all"]:
 if args["benchmark"] in  ["family","all"]:
     print("\n\nDrug Target Protein Family Prediction Started...\n")
     dtcp.representation_path = args["representation_file_human"]
-    dtcp.representation_name = args.representation_name
+    dtcp.representation_name = args["representation_name"]
     dtcp.detailed_output = args["detailed_output"]
+    dtcp.dataset = args["family_prediction_dataset"]
     dtcp.score_protein_rep()
-    dtcpg.representation_path = args["representation_file_human"]
-    dtcpg.representation_name = args["representation_name"]
-    dtcpg.score_protein_rep()
 if args["benchmark"] in  ["affinity","all"]:
     print("\n\nProtein Affinity Prediction Started...\n")
     afp.skempi_vectors_path = args["representation_file_affinity"]

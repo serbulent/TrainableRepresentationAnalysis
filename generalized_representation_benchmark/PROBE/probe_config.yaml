@@ -1,16 +1,18 @@
 # benchmark should be one of the "similarity","family","function","affinity","all"
-benchmark: similarity 
+benchmark: all
 # Path of the representation file for "similarity","family","function" tasks
-representation_file_human: /media/DATA/serbulent/DATA/Thesis/ReviewPaper/results/representation_vectors/representation_vector_dataframes/revision-1/APAAC_UNIPROT_HUMAN.csv
+representation_file_human: /media/DATA/serbulent/DATA/Thesis/ReviewPaper/results/representation_vectors/representation_vector_dataframes/revision-1/AAC_UNIPROT_HUMAN.csv
 # Path of the representation file for affinity task
-representation_file_affinity: /media/DATA/serbulent/DATA/Thesis/ReviewPaper/results/representation_vectors/representation_vector_dataframes/skempi/pdb_apaac_dim80.csv
+representation_file_affinity: /media/DATA/serbulent/DATA/Thesis/ReviewPaper/results/representation_vectors/representation_vector_dataframes/skempi/pdb_aac_dim20.csv
 # Representation name
-representation_name: APAAC
+representation_name: AAC
 # similarity_tasks should be a list can be include any combination of "Sparse","200","500"
 similarity_tasks: ["Sparse","200","500"]
 # function_prediction_aspect should be one of the "MF","BP","CC","All_Aspects"
 function_prediction_aspect: All_Aspects
 # function_prediction_dataset should be one of the "High","Middle","Low","All_Data_Sets"
 function_prediction_dataset: All_Data_Sets
+# family_prediction_dataset should be one of the "nc", "uc50", "uc30", "uc15"
+family_prediction_dataset: uc50
 #detailed_output can be True or False
 detailed_output: True
