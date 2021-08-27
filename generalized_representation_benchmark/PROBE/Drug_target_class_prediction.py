@@ -25,7 +25,7 @@ import math
 
 representation_name = ""
 representation_path = ""
-dataset = ""
+dataset = "nc"
 detailed_output = False
 
 def convert_dataframe_to_multi_col(representation_dataframe):
@@ -55,12 +55,20 @@ def class_based_scores(c_report, c_matrix):
     num_classes = np.shape(c_matrix)[0]
     mcc = np.zeros(shape=(num_classes,), dtype='float32')
     weights = np.sum(c_matrix, axis=0)/np.sum(c_matrix)
+    total_tp = 0
+    total_fp = 0
+    total_fn = 0
+    total_tn = 0
 
     for j in range(num_classes):
         tp = np.sum(c_matrix[j, j])
         fp = np.sum(c_matrix[j, np.concatenate((np.arange(0, j), np.arange(j+1, num_classes)))])
         fn = np.sum(c_matrix[np.concatenate((np.arange(0, j), np.arange(j+1, num_classes))), j])
         tn = int(total - tp - fp - fn)
+        total_tp = total_tp + tp
+        total_fp = total_fp + fp
+        total_fn = total_fn + fn
+        total_tn = total_tn + tn
         #print(tp,fp,fn,tn)
         mcc[j] = ((tp*tn)-(fp*fn))/math.sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn))
     #print(mcc)
@@ -69,13 +77,13 @@ def class_based_scores(c_report, c_matrix):
 
     mcc = pd.Series(mcc, index=c_report.index)
     c_report['mcc'] = mcc
-    #c_report.to_excel('../result/results_class_based_'+dataset+'.xlsx')
+    #c_report.to_excel('../results/resultss_class_based_'+dataset+'.xlsx')
     #print(c_report)
-    return c_report
+    return c_report, total_tp, total_fp, total_fn, total_tn
 
 
 
-def score_protein_rep():
+def score_protein_rep(dataset):
 #def score_protein_rep(pkl_data_path):
 
     vecsize = 0
@@ -123,7 +131,6 @@ def score_protein_rep():
     report_list = []
     train_index = pd.read_csv('../data/preprocess/indexes/'+dataset+'_trainindex.csv')
     test_index = pd.read_csv('../data/preprocess/indexes/testindex_family.csv')
-
     train_index = train_index.dropna(axis=1) 
     test_index = test_index.dropna(axis=1)
     #print(train_index)
@@ -158,7 +165,7 @@ def score_protein_rep():
         y_pred = clf2.predict(test_X)
            
         #y_pred = cross_val_predict(clf2, x, y, cv=10, n_jobs=-1)
-        mcc.append(matthews_corrcoef(test_y, y_pred, sample_weight = test_y))
+        #mcc.append(matthews_corrcoef(test_y, y_pred, sample_weight = test_y))
         f1_ = f1_score(test_y, y_pred, average='weighted')
         f1.append(f1_)
         ac = accuracy_score(test_y, y_pred)
@@ -167,16 +174,19 @@ def score_protein_rep():
         c_matrix = confusion_matrix(test_y, y_pred, labels=labels)
 
         conf = conf.append(pd.DataFrame(c_matrix, columns=['Enzymes', 'Membrane receptor', 'Transcription factor', 'Ion channel', 'Other']), ignore_index=True) 
-        class_report = class_based_scores(c_report, c_matrix)
-        #print(class_report)
+        class_report, tp, fp, fn, tn = class_based_scores(c_report, c_matrix)
+        
+        #print(total_tp)
+        mcc.append(((tp*tn)-(fp*fn))/math.sqrt((tp+fp)*(tp+fn)*(tn+fp)*(tn+fn)))
+
+        
         f1_perclass.append(class_report['f1-score'])
         ac_perclass.append(class_report['accuracy'])
         mcc_perclass.append(class_report['mcc'])
         sup_perclass.append(class_report['support'])
         report_list.append(class_report)
     
-    conf.to_csv('../results/confusion'+representation_name+'_'+dataset+'.csv', index=None)
-    
+    conf.to_csv('../results/family_classification_confusion_'+representation_name+'_'+dataset+'.csv', index=None)
 
     f1_perclass = pd.concat(f1_perclass, axis=1)
     ac_perclass = pd.concat(ac_perclass, axis=1)
@@ -184,9 +194,8 @@ def score_protein_rep():
     sup_perclass = pd.concat(sup_perclass, axis=1)
     
     report_list = pd.concat(report_list, axis=1)
-    report_list.to_excel('../results/' + representation_name + '_results_class_based_'+dataset+'.xlsx')
-
-
+    report_list.to_csv('../results/family_classification_' + representation_name + '_class_based_results_'+dataset+'.csv')
+    
     report = pd.DataFrame()    
     f1mean = np.mean(f1, axis=0)
     #print(f1mean)
@@ -202,7 +211,7 @@ def score_protein_rep():
     report['Accuracy'] = [acmean, acstd]
     report['MCC'] = [mccmean, mccstd]
 
-    report.to_csv('../results/dt_prot_famliy_pred_'+representation_name+'_report_'+dataset+'.csv',index=False)
+    report.to_csv('../results/family_classification_'+representation_name+'_mean_results_'+dataset+'.csv',index=False)
     #report.to_csv('scores_general.csv')
     #print(report)   
     if detailed_output:

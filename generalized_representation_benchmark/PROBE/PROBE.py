@@ -48,8 +48,8 @@ if args["benchmark"] in  ["family","all"]:
     dtcp.representation_path = args["representation_file_human"]
     dtcp.representation_name = args["representation_name"]
     dtcp.detailed_output = args["detailed_output"]
-    dtcp.dataset = args["family_prediction_dataset"]
-    dtcp.score_protein_rep()
+    for dataset in args["family_prediction_dataset"]:
+	    dtcp.score_protein_rep(dataset)
 if args["benchmark"] in  ["affinity","all"]:
     print("\n\nProtein Affinity Prediction Started...\n")
     afp.skempi_vectors_path = args["representation_file_affinity"]
