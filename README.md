@@ -19,7 +19,7 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 **generalized_representation_benchmark/PROBE** folder. Also study results can be reproduced easily using PROBE.
 
 - **Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
-- 
+
 - **go_prediction** folder is under **Benchmark_Study** and includes codes for generalized visualization of the results.
 
 - **go_prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
@@ -36,7 +36,7 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 
 The data needed by the PROBE tool is located under "PROBE" folder. The data belongs to benchmark study was located under the "Benchmark_IO_data" folder. Each task and  shared data has its own folder. The directory structure is self-explanatory and standard for all tasks, hence some of the folders might be empty based on task for now. 
 
-Other than that the reusable 23 precalculated reusable protein representation vectors for human proteins can be found under "Shared_Data/Representations/representations_vectors/representation_vector_dataframes/csv" folder for all tasks except protein-protein binding affinity estimation. The respresentations of proteins belongs to protein-protein binding affinity estimation task is in "Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI" folder for further use.
+Other than that the reusable 23 precalculated reusable protein representation vectors for human proteins can be found under **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/HUMAN_PROTEIN_VECTORES"** folder for all tasks except protein-protein binding affinity estimation. The respresentations of proteins belongs to protein-protein binding affinity estimation task is in **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI"** folder for further use.
 
 <pre>
 -PROBE 
