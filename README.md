@@ -1,23 +1,26 @@
-# Evaluation of Trainable Protein Representation Methods
-"Evaluation of Trainable Protein Representation Methods: A Quantitative Review" is an evalutation and review study on trainable protein representations.
+# Evaluation of Methods for Protein Representation Learning
+Evaluation of Methods for Protein Representation Learning: A Quantitative Analysisis an evalutation and review study on learned protein representations.
 
-- The study is an investigation of the available trainable protein representation methods.
+- The study is an investigation of the available learned protein representation methods.
 
 - Aiming to evaluate how much each representation model captures different facets of functional information, we constructed and applied benchmarks based on;
   - The detection of semantic similarities between proteins (a.k.a Semantic similarity inference)
   - Ontology-based protein function prediction
   - Drug-target protein family classification
+  - Protein-protein binding affinity estimation
 
 - The study is summarized in the figure below;<br/><br/> 
  
- ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/evalprotrep_summary_figure.png)
+ ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/evalprotrep_summary_figure.jpg)
 
 ## Organization of this repository
 
-- ProtBench is tool that can be used to evaluate any protein representation model. The tool can be found under 
-**generalized_representation_benchmark** folder. Also study results can be reproduced easily using ProtBench.
+- PROBE (Protein RepresentatiOn BEnchmark) is tool that can be used to evaluate any protein representation model. The tool can be found under 
+**generalized_representation_benchmark/PROBE** folder. Also study results can be reproduced easily using PROBE.
 
 - **Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
+
+- **go_prediction** folder is under **Benchmark_Study** and includes codes for generalized visualization of the results.
 
 - **go_prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
 
@@ -25,16 +28,18 @@
 
 - **protein_family_prediction** folder is under **Benchmark_Study** and includes codes used for "Drug-target protein family classification" task.
 
-- **preprocess** folder is under **Benchmark_Study** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
+- **protein_affinity_prediction** folder is under **Benchmark_Study** and includes codes used for "Protein-protein binding affinity estimation" task.
+
+- **data/preprocess** folder is under **Benchmark_Study** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
 
 - The large files used for the benchmark is shared on [GDrive](https://drive.google.com/drive/folders/1adgnOlb-4gQLgxEdsFmwtYFoYaiq5Eva) and the main directory structure is shown below.
 
-The data used in ProtBench was located under "ProtBench" folder. The data belongs to benchmark study was located under the "Benchmark_IO_data" folder. Each task and  shared data has its own folder. The directory structure is self-explanatory and standard for all tasks, hence some of the folders might be empty based on task for now. 
+The data needed by the PROBE tool is located under "PROBE" folder. The data belongs to benchmark study was located under the "Benchmark_IO_data" folder. Each task and  shared data has its own folder. The directory structure is self-explanatory and standard for all tasks, hence some of the folders might be empty based on task for now. 
 
-Other than that the reusable 11 precalculated reusable protein representation vectors for human proteins can be found under "Shared_Data/Representations/representations_vectors/representation_vector_dataframes" folder for further use.
+Other than that the reusable 23 precalculated reusable protein representation vectors for human proteins can be found under **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/HUMAN_PROTEIN_VECTORES"** folder for all tasks except protein-protein binding affinity estimation. The respresentations of proteins belongs to protein-protein binding affinity estimation task is in **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI"** folder for further use.
 
 <pre>
--ProtBench 
+-PROBE 
 -Benchmark_IO_data
 |
 |---GO_prediction
