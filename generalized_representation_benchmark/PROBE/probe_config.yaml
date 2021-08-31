@@ -12,7 +12,7 @@ similarity_tasks: ["Sparse","200","500"]
 function_prediction_aspect: All_Aspects
 # function_prediction_dataset should be one of the "High","Middle","Low","All_Data_Sets"
 function_prediction_dataset: All_Data_Sets
-# family_prediction_dataset should be one of the "nc", "uc50", "uc30", "uc15"
-family_prediction_dataset: uc50
+# family_prediction_dataset a list can be include any combination of "nc", "uc50", "uc30", "uc15"
+family_prediction_dataset: ["nc","uc50","uc30","uc15"]
 #detailed_output can be True or False
 detailed_output: True
