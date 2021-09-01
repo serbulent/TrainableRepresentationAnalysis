@@ -75,9 +75,7 @@ Other than that the reusable 23 precalculated reusable protein representation ve
   - Scikit-MultiLearn 0.2.0
   - Tqdm 4.51 
 
-- The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in generalized_representation_benchmark directory.
-
-- For running this tool locally please 
+- The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in generalized_representation_benchmark directory. 
 
 - Aiming to evaluate how much each representation model captures different facets of functional information, we constructed and applied benchmark tests based on;
   - inferring semantic similarities between proteins,
