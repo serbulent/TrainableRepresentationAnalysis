@@ -22,13 +22,13 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 
 - **go_prediction** folder is under **Benchmark_Study** and includes codes for generalized visualization of the results.
 
-- **go_prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
+- **function_prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
 
-- **embedding_similarity** folder is under **Benchmark_Study** and includes codes used for "Semantic similarity inference" task.
+- **semantic_similarity_inference** folder is under **Benchmark_Study** and includes codes used for "Semantic similarity inference" task.
 
-- **protein_family_prediction** folder is under **Benchmark_Study** and includes codes used for "Drug-target protein family classification" task.
+- **target_family_classification** folder is under **Benchmark_Study** and includes codes used for "Drug-target protein family classification" task.
 
-- **protein_affinity_prediction** folder is under **Benchmark_Study** and includes codes used for "Protein-protein binding affinity estimation" task.
+- **binding_affinity_estimation** folder is under **Benchmark_Study** and includes codes used for "Protein-protein binding affinity estimation" task.
 
 - **data/preprocess** folder is under **Benchmark_Study** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
 
