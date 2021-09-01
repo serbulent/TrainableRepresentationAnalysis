@@ -26,9 +26,13 @@
 # "affinity" for running drug target protein-protein interaction affinity estimation benchmark
 # "all" for running all benchmarks
 benchmark: all
-#Path of the representation file for representation vector file to be benchmarked "similarity","family","function" tasks. The file should be consist of multiple columns. The first column should be named 'ENTRY' which includes UNIPROT ID, and various subsequent columns corresponding to representation vector dimensions should exist.
+#Path of the representation file for representation vector file to be benchmarked "similarity","family","function" tasks.
+#The file should be consist of multiple columns. The first column should be named 'ENTRY' which includes UNIPROT ID, 
+#and various subsequent columns corresponding to representation vector dimensions should exist.
 representation_file_human: path_to_representation_file_human/AAC_UNIPROT_HUMAN.csv
-#Path of the representation file for affinity task. The file should be consist of multiple columns. The first column should be named 'ENTRY' which includes UNIPROT ID, and various subsequent columns corresponding to representation vector dimensions should exist.
+#Path of the representation file for affinity task. 
+#The file should be consist of multiple columns. The first column should be named 'ENTRY' which includes UNIPROT ID, 
+#and various subsequent columns corresponding to representation vector dimensions should exist.
 representation_file_affinity: path_to_representation_file_affinity/skempi_AAC.csv
 #Representation name which is used to name output files
 representation_name: AAC
