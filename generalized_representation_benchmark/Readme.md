@@ -13,9 +13,9 @@
 - This tool runs benchmark analyses on the protein representation vectors of different representation learning methods
  to evaluate and compare their predictive performance on protein function related predictive tasks.
 
-- The benchmark module run for all tests on one protein represenation method (e.g., AAC). The options can be set using probe_config.yaml and test can be run from linux console.
+- The benchmark module run for all tests on one protein represenation method (e.g., AAC). The options can be set using probe_config.yaml and test can be run from linux console with in the PROBE directory.
 
- - i.e. python PROBE.py
+ - i.e. cd PROBE && python PROBE.py
 
 - **Example configuration file**
 ```yaml
