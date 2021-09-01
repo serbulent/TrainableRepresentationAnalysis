@@ -77,7 +77,7 @@ Other than that the reusable 23 precalculated reusable protein representation ve
 
 - The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in generalized_representation_benchmark directory.
 
-- For running this tool locally please download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) and place it into the same folder in generalized_representation_benchmark directory.
+- For running this tool locally please 
 
 - Aiming to evaluate how much each representation model captures different facets of functional information, we constructed and applied benchmark tests based on;
   - inferring semantic similarities between proteins,
@@ -89,6 +89,13 @@ Other than that the reusable 23 precalculated reusable protein representation ve
  to evaluate and compare their predictive performance on protein function related predictive tasks.
 
 - The benchmark module run for all tests on one protein represenation method (e.g., AAC). The options can be set using probe_config.yaml and test can be run from linux console with in the PROBE directory.
+- 
+- **Step-by-step operation:**
+1. Clone this repository
+2. Install dependencies
+3. Download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) place it in generalized_representation_benchmark directory with directory name 'data'.
+4. Edit configuration file and set paths of your representation file/files.
+5. Go to the PROBE directory and run the PROBE.py
 
  - i.e. cd PROBE && python PROBE.py
 
