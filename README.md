@@ -47,22 +47,21 @@ Other than that the reusable 23 precalculated reusable protein representation ve
    |---preprocess
    |---input_data
    |---results
-      |---main_results
-      |---detailed_results
 |---Embedding_Similarity
    |
    |---preprocess
    |---input_data
    |---results
-      |---main_results
-      |---detailed_results
 |---Protein_Family_Prediction
    |
    |---preprocess
    |---input_data
    |---results
-      |---main_results
-      |---detailed_results
+|---Protein_Affinity_Prediction
+   |
+   |---preprocess
+   |---input_data
+   |---results
 |---Shared_Data
 </pre>
 
