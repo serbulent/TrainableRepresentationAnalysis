@@ -32,11 +32,12 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 
 - **data/preprocess** folder is under **Benchmark_Study** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
 
+# Data Availability
 - The large files used for the benchmark is shared on [GDrive](https://drive.google.com/drive/folders/1adgnOlb-4gQLgxEdsFmwtYFoYaiq5Eva) and the main directory structure is shown below.
 
 The data needed by the PROBE tool is located under "PROBE" folder. The data belongs to benchmark study was located under the "Benchmark_IO_data" folder. Each task and  shared data has its own folder. The directory structure is self-explanatory and standard for all tasks, hence some of the folders might be empty based on task for now. 
 
-Other than that the reusable 20 precalculated protein representation vectors for human proteins can be found under **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/HUMAN_PROTEIN_VECTORES"** folder for all tasks except protein-protein binding affinity estimation. The protein representation vectors belongs to protein-protein binding affinity estimation task is in **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI"** folder for further use.
+Other than that the reusable 20 precalculated protein representation vectors for human proteins can be found under **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/HUMAN_PROTEIN_VECTORS"** folder for all tasks except protein-protein binding affinity estimation. The protein representation vectors belongs to protein-protein binding affinity estimation task is in **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI"** folder for further use.
 
 <pre>
 -PROBE 
@@ -65,7 +66,28 @@ Other than that the reusable 20 precalculated protein representation vectors for
 |---Shared_Data
 </pre>
 
+# **Benchmarking your own representation model**
+
+  - Semantic similarity prediction, Ontology-based protein function prediction, Drug target protein family classification and Protein-protein binding affinity estimation tasks can be run for any representation vector dataset. There are two possible ways to do this:
+    - Cloning the capsule and running it on [Code Ocean](https://codeocean.com/capsule/858401)
+    - Clonning this repository  (this option is advised if you plan to run additional tasks over the default ones, as the run time may be elevated).
+  
+  - Prepraration of the input vector dataset: 
+    - Generate your representation vectors for all human proteins (i.e. canonical isoforms) and SKEMPI dataset which can be found at [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing) file.
+    - File format:
+      - Each row corresponds to the representation vector of a particular protein.
+      - The first column header should be "Entry" and the rows contain the respective UniProt protein accessions.
+      - Following column headers can be the index number of the dimension of the vector, the rows contain representation vectors' values (i.e. each column corresponds to a dimension of the representation vector).
+      - Representation vectors should have a fixed size.
+      - Save your representation vectors in comma separated (csv) text file.
+      - All representation vectors files used in this study can be found in the folder [representation_vectors_dataframes](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO).
+  - Following the generation of the representation vector file, the benchmark tests can be run as described in the "How to Run PROBE" section.
+
 # How to Run PROBE (Protein RepresentatiOn BEnchmark)
+
+- This tool runs benchmark analyses on the protein representation vectors of different representation learning methods to evaluate and compare their predictive performance on protein function related predictive tasks.
+
+- The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in generalized_representation_benchmark directory.
 
 - **Dependencies**
   - Python 3.8.1
@@ -74,19 +96,6 @@ Other than that the reusable 20 precalculated protein representation vectors for
   - Scikit-Learn 0.22
   - Scikit-MultiLearn 0.2.0
   - Tqdm 4.51 
-
-- The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in generalized_representation_benchmark directory. 
-
-- Aiming to evaluate how much each representation model captures different facets of functional information, we constructed and applied benchmark tests based on;
-  - inferring semantic similarities between proteins,
-  - predicting ontology-based protein functions, 
-  - classifying drug target proteins according to their families, and
-  - protein-protein binding affinity estimation.
-
-- This tool runs benchmark analyses on the protein representation vectors of different representation learning methods
- to evaluate and compare their predictive performance on protein function related predictive tasks.
-
-- The benchmark module run for all tests on one protein represenation method (e.g., AAC). The options can be set using probe_config.yaml and test can be run from linux console with in the PROBE directory.
 
 - **Step-by-step operation:**
 1. Clone this repository
@@ -116,20 +125,24 @@ representation_file_human: path_to_representation_file_human/AAC_UNIPROT_HUMAN.c
 representation_file_affinity: path_to_representation_file_affinity/skempi_AAC.csv
 #Representation name which is used to name output files
 representation_name: AAC
-#similarity_tasks should be a list can be include any combination of "Sparse","200","500" for selecting the semantic similarity inference benchmark dataset
+#similarity_tasks should be a list can be include any combination of "Sparse","200","500" 
+#for selecting the semantic similarity inference benchmark dataset
 similarity_tasks: ["Sparse","200","500"]
-#function_prediction_aspect should be one of the "MF","BP","CC","All_Aspects" for selecting the target Gene Ontology aspect/category for the protein function prediction benchmark
+#function_prediction_aspect should be one of the "MF","BP","CC","All_Aspects" 
+#for selecting the target Gene Ontology aspect/category for the protein function prediction benchmark
 function_prediction_aspect: All_Aspects
-#function_prediction_dataset should be one of the "High","Middle","Low","All_Data_Sets" for selecting the target size-based-split datasets for the protein function prediction benchmark
+#function_prediction_dataset should be one of the "High","Middle","Low","All_Data_Sets"
+#for selecting the target size-based-split datasets for the protein function prediction benchmark
 function_prediction_dataset: All_Data_Sets
-#family_prediction_dataset a list can be include any combination of "nc", "uc50", "uc30", "uc15" for selecting the target identity-based-similarity datasets protein-protein binding affinity estimation benchmark
+#family_prediction_dataset a list can be include any combination of "nc", "uc50", "uc30", "uc15" 
+#for selecting the target identity-based-similarity datasets protein-protein binding affinity estimation benchmark
 family_prediction_dataset: ["nc","uc50","uc30","uc15"]
 #detailed_output can be True or False
 detailed_output: True
 
 ```
 
-# **Definition of output files:**
+# **Definition of output files**
 
   - Default output (files that are produced in the default mode run):
     - Semantic similarity prediction:
@@ -156,24 +169,6 @@ detailed_output: True
       - drug_target_family_pred_score_type_representation_name_dataset_name.npy: This file includes scores (f1,accuray,mcc) belngs to 10-fold cross-validation.
       - drug_target_family_pred_score_type_perclass_representation_name_dataset_name.npy: This file includes scores (f1,accuray,mcc) belngs to 10-fold cross-validation for each class.
   
-# **Benchmarking your own representation model:**
-
-  - Semantic similarity prediction, Ontology-based protein function prediction and Drug target protein family classification tasks can be run for any representation vector dataset. There are two possible ways to do this:
-    - Cloning the capsule and running it on Code Ocean. 
-    - Clonning this repository  (this option is advised if you plan to run additional tasks over the default ones, as the run time may be elevated).
-  
-  - Prepraration of the input vector dataset: 
-    - Generate your representation vectors for all human proteins (i.e. canonical isoforms) and SKEMPI dataset which can be found at [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing) file.
-    - File format:
-      - Each row corresponds to the representation vector of a particular protein.
-      - The first column header should be "Entry" and the rows contain the respective UniProt protein accessions.
-      - Following column headers can be the index number of the dimension of the vector, the rows contain representation vectors' values (i.e. each column corresponds to a dimension of the representation vector).
-      - Representation vectors should have a fixed size.
-      - Save your representation vectors in comma separated (csv) text file.
-      - All representation vectors files used in this study can be found in the folder [representation_vectors_dataframes](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO).
-  - Following the generation of the representation vector file, the benchmark tests can be run as described above.
-  - For the local run, dependencies can be found in the environment section of the code ocean capsule.
-
 
 # License
 
