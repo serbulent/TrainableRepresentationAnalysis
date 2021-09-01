@@ -36,7 +36,7 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 
 The data needed by the PROBE tool is located under "PROBE" folder. The data belongs to benchmark study was located under the "Benchmark_IO_data" folder. Each task and  shared data has its own folder. The directory structure is self-explanatory and standard for all tasks, hence some of the folders might be empty based on task for now. 
 
-Other than that the reusable 23 precalculated reusable protein representation vectors for human proteins can be found under **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/HUMAN_PROTEIN_VECTORES"** folder for all tasks except protein-protein binding affinity estimation. The respresentations of proteins belongs to protein-protein binding affinity estimation task is in **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI"** folder for further use.
+Other than that the reusable 20 precalculated protein representation vectors for human proteins can be found under **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/HUMAN_PROTEIN_VECTORES"** folder for all tasks except protein-protein binding affinity estimation. The protein representation vectors belongs to protein-protein binding affinity estimation task is in **"Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI"** folder for further use.
 
 <pre>
 -PROBE 
@@ -87,7 +87,7 @@ Other than that the reusable 23 precalculated reusable protein representation ve
  to evaluate and compare their predictive performance on protein function related predictive tasks.
 
 - The benchmark module run for all tests on one protein represenation method (e.g., AAC). The options can be set using probe_config.yaml and test can be run from linux console with in the PROBE directory.
-- 
+
 - **Step-by-step operation:**
 1. Clone this repository
 2. Install dependencies
@@ -129,7 +129,7 @@ detailed_output: True
 
 ```
 
-- **Definition of output files:**
+# **Definition of output files:**
 
   - Default output (files that are produced in the default mode run):
     - Semantic similarity prediction:
@@ -156,7 +156,7 @@ detailed_output: True
       - drug_target_family_pred_score_type_representation_name_dataset_name.npy: This file includes scores (f1,accuray,mcc) belngs to 10-fold cross-validation.
       - drug_target_family_pred_score_type_perclass_representation_name_dataset_name.npy: This file includes scores (f1,accuray,mcc) belngs to 10-fold cross-validation for each class.
   
-- **Benchmarking your own representation model:**
+# **Benchmarking your own representation model:**
 
   - Semantic similarity prediction, Ontology-based protein function prediction and Drug target protein family classification tasks can be run for any representation vector dataset. There are two possible ways to do this:
     - Cloning the capsule and running it on Code Ocean. 
