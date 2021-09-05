@@ -1,18 +1,31 @@
-# benchmark should be one of the "similarity","family","function","affinity","all"
+#benchmark should be one of the "similarity","family","function","affinity","all"
+# "similarity" for running protein semantic similarity inference benchmark
+# "function" for running ontology-based function prediction benchmark
+# "family" for running drug target protein family classification benchmark
+# "affinity" for running drug target protein-protein binding affinity estimation benchmark
+# "all" for running all benchmarks
 benchmark: all
-# Path of the representation file for "similarity","family","function" tasks
-representation_file_human: /media/DATA/serbulent/DATA/Thesis/ReviewPaper/results/representation_vectors/representation_vector_dataframes/revision-1/AAC_UNIPROT_HUMAN.csv
-# Path of the representation file for affinity task
-representation_file_affinity: /media/DATA/serbulent/DATA/Thesis/ReviewPaper/results/representation_vectors/representation_vector_dataframes/skempi/pdb_aac_dim20.csv
-# Representation name
+#Path of the representation file for representation vector file to be benchmarked "similarity","family","function" tasks.
+#The file should be consist of multiple columns. The first column should be named 'ENTRY' which includes UNIPROT ID, 
+#and various subsequent columns corresponding to representation vector dimensions should exist.
+representation_file_human: path_to_representation_file_human/AAC_UNIPROT_HUMAN.csv
+#Path of the representation file for affinity task. 
+#The file should be consist of multiple columns. The first column should be named 'ENTRY' which includes UNIPROT ID, 
+#and various subsequent columns corresponding to representation vector dimensions should exist.
+representation_file_affinity: path_to_representation_file_affinity/skempi_AAC.csv
+#Representation name which is used to name output files
 representation_name: AAC
-# similarity_tasks should be a list can be include any combination of "Sparse","200","500"
+#similarity_tasks should be a list can be include any combination of "Sparse","200","500" 
+#for selecting the semantic similarity inference benchmark dataset
 similarity_tasks: ["Sparse","200","500"]
-# function_prediction_aspect should be one of the "MF","BP","CC","All_Aspects"
+#function_prediction_aspect should be one of the "MF","BP","CC","All_Aspects" 
+#for selecting the target Gene Ontology aspect/category for the protein function prediction benchmark
 function_prediction_aspect: All_Aspects
-# function_prediction_dataset should be one of the "High","Middle","Low","All_Data_Sets"
+#function_prediction_dataset should be one of the "High","Middle","Low","All_Data_Sets"
+#for selecting the target size-based-split datasets for the protein function prediction benchmark
 function_prediction_dataset: All_Data_Sets
-# family_prediction_dataset a list can be include any combination of "nc", "uc50", "uc30", "uc15"
+#family_prediction_dataset a list can be include any combination of "nc", "uc50", "uc30", "uc15" 
+#for selecting the target identity-based-similarity datasets protein-protein binding affinity estimation benchmark
 family_prediction_dataset: ["nc","uc50","uc30","uc15"]
 #detailed_output can be True or False
 detailed_output: True

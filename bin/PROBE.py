@@ -1,10 +1,10 @@
 import yaml
 import pandas as pd
 import tqdm
-import SimilarityCorrelation as smc
-import Drug_target_class_prediction as dtcp
-import GOPredictor as gp
-import AffinityPredictor as afp
+import semantic_similarity_infer as ssi
+import target_family_classifier as tfc
+import function_predictor as fp
+import binding_affinity_estimator as bae
 
 with open('probe_config.yaml') as f:
 	args = yaml.load(f, Loader=yaml.FullLoader)
@@ -29,32 +29,32 @@ if args["benchmark"] in  ["similarity","function","all"]:
  
 if args["benchmark"] in  ["similarity","all"]:
     print("\n\nProtein Similarity Calculation Started...\n")
-    smc.representation_dataframe = representation_dataframe
-    smc.representation_name = args["representation_name"]
-    smc.protein_names = smc.representation_dataframe['Entry'].tolist()
-    smc.similarity_tasks = args["similarity_tasks"]
-    smc.detailed_output = args["detailed_output"]
-    smc.calculate_all_correlations()
+    ssi.representation_dataframe = representation_dataframe
+    ssi.representation_name = args["representation_name"]
+    ssi.protein_names = smc.representation_dataframe['Entry'].tolist()
+    ssi.similarity_tasks = args["similarity_tasks"]
+    ssi.detailed_output = args["detailed_output"]
+    ssi.calculate_all_correlations()
 if args["benchmark"] in  ["function","all"]:
     print("\n\n Ontology Based Protein Function Prediction Started...\n")
-    gp.aspect_type = args["function_prediction_aspect"]
-    gp.dataset_type = args["function_prediction_dataset"]
-    gp.representation_dataframe = representation_dataframe
-    gp.representation_name = args["representation_name"]
-    gp.detailed_output = args["detailed_output"]
-    gp.pred_output()
+    fp.aspect_type = args["function_prediction_aspect"]
+    fp.dataset_type = args["function_prediction_dataset"]
+    fp.representation_dataframe = representation_dataframe
+    fp.representation_name = args["representation_name"]
+    fp.detailed_output = args["detailed_output"]
+    fp.pred_output()
 if args["benchmark"] in  ["family","all"]:
     print("\n\nDrug Target Protein Family Prediction Started...\n")
-    dtcp.representation_path = args["representation_file_human"]
-    dtcp.representation_name = args["representation_name"]
-    dtcp.detailed_output = args["detailed_output"]
+    tfc.representation_path = args["representation_file_human"]
+    tfc.representation_name = args["representation_name"]
+    tfc.detailed_output = args["detailed_output"]
     for dataset in args["family_prediction_dataset"]:
-	    dtcp.score_protein_rep(dataset)
+	    tfc.score_protein_rep(dataset)
 if args["benchmark"] in  ["affinity","all"]:
     print("\n\nProtein Affinity Prediction Started...\n")
-    afp.skempi_vectors_path = args["representation_file_affinity"]
-    afp.representation_name = args["representation_name"]
-    afp.predict_affinities_and_report_results()
+    bae.skempi_vectors_path = args["representation_file_affinity"]
+    bae.representation_name = args["representation_name"]
+    bae.predict_affinities_and_report_results()
 
 
 
