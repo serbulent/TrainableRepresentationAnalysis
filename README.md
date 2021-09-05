@@ -142,23 +142,26 @@ detailed_output: True
 
 ```
 
-# **Definition of output files**
+# Definition of output files
 
   - Default output (files that are produced in the default mode run):
     - Semantic similarity prediction:
       - Semantic_sim_pred_representation_name_similarity_matrix_type.csv: This file includes semantic similarity correlation results for the selected representation method, on the selected dataset.
+      - Dataset names; 500: well-annotated 500 proteins, 200: well-annotated 200 proteins, sparse: sparse uniform dataset
     - Ontology-based protein function prediction:
       - Ontology_based_function_prediction_representation_name_5cv_mean.tsv: This file includes ontology-based function protein prediction performance results (mean values of the 5-fold cross validation) for the selected representation method, on the selected dataset(s).
       - Ontology_based_function_prediction_representation_name_5cv_std.tsv: This file includes standrt deviation values for prediction performance scores on each fold of the 5-fold cross validation.
+      - For explanations regarding datasets, please see Methods sub-section entitled "Ontology-based Protein Function Prediction Benchmark" in out paper
     - Drug-target protein family classification:
-       - family_classification_representation_name_mean_results_dataset_name.csv: This file includes the average drug target protein family classification performance results (mean of all protein family classes).
+      - family_classification_representation_name_mean_results_dataset_name.csv: This file includes the average drug target protein family classification performance results (mean of all protein family classes).
       - family_classification_representation_class_based_results_dataset_name.csv: This file includes family/class based drug target protein family classification performance results.
       - family_classification_confusion_representation_name_dataset_name.csv: This file includes confusion matrices of each fold applied during cross-validation.
+      - Dataset names; nc: Non-clustred/Random, uc50: Uniclust50, uc30: Uniclust30, mm15: MMSeq-15
     - Protein-protein binding affinity estimation:
       - Affinit_prediction_skempiv1_representation_name.csv: This file includes affinity estimation test result as mean scores of 10-fold cross-validation which are mean squared error, mean absolute error, and correlation.
       - Affinit_prediction_skempiv1_representation_name_detail.csv:This file includes affinity estimation test results of 10-fold cross-validation for each fold which are mean squared error, mean absolute error, and correlation.
 
-  - Detailed output (these files are only produced when detailed_output parameter set as True):
+  - **Detailed output (these files are only produced when detailed_output parameter set as True):**
     - Semantic similarity prediction:
       - Detailed_Semantic_sim_pred_representation_name_dataset_name_ontology_type.pkl: This file includes the semantic similarity score the representation model. 
     - Ontology-based protein function prediction:
