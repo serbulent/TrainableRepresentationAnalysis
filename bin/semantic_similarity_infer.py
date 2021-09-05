@@ -141,13 +141,13 @@ def calculateCorrelationforOntology(aspect,matrix_type):
     return (cosineCorr,manhattanCorr,euclidianCorr)
 
 def report_detailed_distance_scores(representation_name,similarity_matrix_type,aspect,distance_lists):
-    saveFileName = "../results/Detailed_Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+"_"+aspect+".pkl"
+    saveFileName = "../results/Detailed_Semantic_sim_pred_"+aspect+"_"+similarity_matrix_type+"_"+representation_name+".pkl"
     with open(saveFileName, "wb") as f:
             pickle.dump(distance_lists, f)
 
 def calculate_all_correlations():
     for similarity_matrix_type in similarity_tasks:
-        saveFileName = "../results/Semantic_sim_pred_"+representation_name+"_"+similarity_matrix_type+".csv"
+        saveFileName = "../results/Semantic_sim_inference_"+similarity_matrix_type+"_"+representation_name+".csv"
         buffer = "Semantic Aspect,CosineSim_Correlation,CosineSim_Correlation p-value, ManhattanSim_Correlation,ManhattanSim_Correlation p-value, EuclidianSim_Correlation,EuclidianSim_Correlation p-value \n"
         f = open(saveFileName,'w')
         f.write(buffer)

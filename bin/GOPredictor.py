@@ -63,7 +63,7 @@ def MultiLabelSVC_cross_val_predict(representation_name, dataset, X, y, classifi
     y_pred = cross_val_predict(clf, Xn, y, cv=kf)
 
     if detailed_output:
-        with open(r"../results/Ontology_based_function_prediction_{1}_{0}_model.pkl".format(representation_name,dataset.split(".")[0]),"wb") as file:
+        with open(r"../results/{0}_{1}_model.pkl".format(representation_name,dataset.split(".")[0]),"wb") as file:
             pickle.dump(clf,file)
         
     acc_cv = []
@@ -149,7 +149,7 @@ def ProtDescModel():
         predictions = dt_merge.iloc[:,:6]
         predictions["predicted_values"] = list(model[3].toarray())
         if detailed_output:
-            predictions.to_csv(r"../results/Ontology_based_function_prediciton_{1}_{0}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
+            predictions.to_csv(r"../results/{1}_{0}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
 
     return (cv_results, cv_mean_results,cv_std_results)             
 
