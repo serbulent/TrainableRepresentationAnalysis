@@ -186,7 +186,8 @@ def score_protein_rep(dataset):
         sup_perclass.append(class_report['support'])
         report_list.append(class_report)
     
-    conf.to_csv('../results/Drug_target_protein_family_classification_confusion_'+representation_name+'_'+dataset+'.csv', index=None)
+    if detailed_output:
+        conf.to_csv('../results/Drug_target_protein_family_classification_confusion_'+representation_name+'_'+dataset+'.csv', index=None)
 
     f1_perclass = pd.concat(f1_perclass, axis=1)
     ac_perclass = pd.concat(ac_perclass, axis=1)
