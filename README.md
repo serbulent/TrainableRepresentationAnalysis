@@ -70,26 +70,21 @@ Other than that the reusable 20 precalculated protein representation vectors for
   
   - Prepraration of the input vector dataset: 
     - Generate your representation vectors for all human proteins (i.e. [canonical isoforms](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing))   Also SKEMPI dataset which can be found at [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing) file.
-- Format of the protein representation file:
-      - Each row corresponds to the representation vector of a particular protein.
-      - Columns: first column's header one should be "Entry", and the rest of the column headers should contain the UniProt protein accessions of respective proteins (i.e., each column in this file corresponds to a different protein).
-      - Rows: After column headers, the rows of the first column should contain the index number that correspond to dimensions of the vector, rows of other columns should contain representation vector values for the corresponding proteins (i.e. each row in this file corresponds to a dimension of representation vectors).
-      - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
-
-  - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
-
+  - Format of the protein representation file:
+    - Each row corresponds to the representation vector of a particular protein.
+    - Columns: first column's header one should be "Entry", and the rest of the column headers should contain the UniProt protein accessions of respective proteins (i.e., each column in this file corresponds to a different protein).
+    - Rows: After column headers, the rows of the first column should contain the index number that correspond to dimensions of the vector, rows of other columns should contain representation vector values for the corresponding proteins (i.e. each row in this file corresponds to a dimension of representation vectors).
+    - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
+    - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
   - Example representation vector files can be found in the folder [representation_vectors_dataframes](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO).
-
-  - The config file should be changed to provide the name of the new representation vector dataset, and to change other parameters as desired.
-  
+  - The config file should be changed to provide the name of the new representation vector dataset, and to change other parameters as desired. 
   - Finally, the benchmark tests can be run (either on CodeOcean or locally by cloning the GitHub repo) as described above.
-
 
 # How to Run PROBE (Protein RepresentatiOn BEnchmark)
 
 - This tool runs benchmark analyses on the protein representation/feature vectors of different representation learning methods to evaluate and compare their predictive performance on protein function related predictive tasks.
 
-- The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in generalized_representation_benchmark directory.
+- The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in the [bin](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/bin) directory.
 
 - **Dependencies**
   - Python 3.8.1
@@ -102,11 +97,11 @@ Other than that the reusable 20 precalculated protein representation vectors for
 - **Step-by-step operation:**
 1. Clone this repository
 2. Install dependencies
-3. Download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) place it in generalized_representation_benchmark directory with directory name 'data'.
+3. Download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) place it with directory name 'data' as shown in the repository.
 4. Edit configuration file and set paths of your representation file/files.
-5. Go to the PROBE directory and run the PROBE.py
+5. Go to the bin directory and run the PROBE.py
 
- - i.e. cd PROBE && python PROBE.py
+ - i.e. cd bin && python PROBE.py
 
 - **Example configuration file**
 ```yaml
@@ -140,7 +135,7 @@ function_prediction_dataset: All_Data_Sets
 #for selecting the target identity-based-similarity datasets protein-protein binding affinity estimation benchmark
 family_prediction_dataset: ["nc","uc50","uc30","mm15"]
 #detailed_output can be True or False
-detailed_output: True
+detailed_output: False
 
 ```
 
