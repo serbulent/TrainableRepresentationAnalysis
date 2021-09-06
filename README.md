@@ -20,8 +20,6 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 
 - **Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
 
-- **go_prediction** folder is under **Benchmark_Study** and includes codes for generalized visualization of the results.
-
 - **function_prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
 
 - **semantic_similarity_inference** folder is under **Benchmark_Study** and includes codes used for "Semantic similarity inference" task.
@@ -122,7 +120,7 @@ representation_file_human: path_to_representation_file_human/AAC_UNIPROT_HUMAN.c
 #Path of the representation file for affinity task. 
 #The file should be consist of multiple columns. The first column should be named 'ENTRY' which includes UNIPROT ID, 
 #and various subsequent columns corresponding to representation vector dimensions should exist.
-representation_file_affinity: path_to_representation_file_affinity/skempi_AAC.csv
+representation_file_affinity: path_to_representation_file_affinity/skempi_AAC.csv_
 #Representation name which is used to name output files
 representation_name: AAC
 #similarity_tasks should be a list can be include any combination of "Sparse","200","500" 
