@@ -20,13 +20,13 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 
 - **[paper_reproduction_scripts](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts)** folder includes codes used for benchmarks presented in the paper.
 
-- **[function_prediction](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/function_prediction)** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
+- **[function_prediction](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/function_prediction)** folder is under **paper_reproduction_scripts** and includes codes used for "Ontology-based protein function prediction" task.
 
-- **[semantic_similarity_inference](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/semantic_similarity_inference)** folder is under **Benchmark_Study** and includes codes used for "Semantic similarity inference" task.
+- **[semantic_similarity_inference](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/semantic_similarity_inference)** folder is under **paper_reproduction_scripts** and includes codes used for "Semantic similarity inference" task.
 
-- **[target_family_classification](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/target_family_classification)** folder is under **Benchmark_Study** and includes codes used for "Drug-target protein family classification" task.
+- **[target_family_classification](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/target_family_classification)** folder is under **paper_reproduction_scripts** and includes codes used for "Drug-target protein family classification" task.
 
-- **[binding_affinity_estimation](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/binding_affinity_estimation)** folder is under **Benchmark_Study** and includes codes used for "Protein-protein binding affinity estimation" task.
+- **[binding_affinity_estimation](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/binding_affinity_estimation)** folder is under **paper_reproduction_scripts** and includes codes used for "Protein-protein binding affinity estimation" task.
 
 - **[preprocess](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/preprocess)** folder is under **[paper_reproduction_scripts](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts)** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
 
