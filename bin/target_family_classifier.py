@@ -186,7 +186,7 @@ def score_protein_rep(dataset):
         sup_perclass.append(class_report['support'])
         report_list.append(class_report)
     
-    conf.to_csv('../results/family_classification_confusion_'+representation_name+'_'+dataset+'.csv', index=None)
+    conf.to_csv('../results/Drug_target_protein_family_classification_confusion_'+representation_name+'_'+dataset+'.csv', index=None)
 
     f1_perclass = pd.concat(f1_perclass, axis=1)
     ac_perclass = pd.concat(ac_perclass, axis=1)
@@ -194,7 +194,7 @@ def score_protein_rep(dataset):
     sup_perclass = pd.concat(sup_perclass, axis=1)
     
     report_list = pd.concat(report_list, axis=1)
-    report_list.to_csv('../results/family_classification_' + representation_name + '_class_based_results_'+dataset+'.csv')
+    report_list.to_csv('../results/Drug_target_protein_family_classification_' + representation_name + '_class_based_results_'+dataset+'.csv')
     
     report = pd.DataFrame()    
     f1mean = np.mean(f1, axis=0)
@@ -211,16 +211,16 @@ def score_protein_rep(dataset):
     report['Accuracy'] = [acmean, acstd]
     report['MCC'] = [mccmean, mccstd]
 
-    report.to_csv('../results/family_classification_'+representation_name+'_mean_results_'+dataset+'.csv',index=False)
+    report.to_csv('../results/Drug_target_protein_family_classification_'+representation_name+'_mean_results_'+dataset+'.csv',index=False)
     #report.to_csv('scores_general.csv')
     #print(report)   
     if detailed_output:
-        save('../results/drug_target_family_pred_f1_'+ representation_name +'_'+dataset+'.npy', f1)
-        save('../results/drug_target_family_pred_accuracy_'+ representation_name +'_'+dataset+'.npy', accuracy)
-        save('../results/drug_target_family_pred_mcc_'+ representation_name +'_'+dataset+'.npy', mcc) 
-        save('../results/drug_target_family_pred_class_based_f1_'+ representation_name +'_'+dataset+'.npy', f1_perclass)
-        save('../results/drug_target_family_pred_class_based_accuracy_'+ representation_name +'_'+dataset+'.npy', ac_perclass)
-        save('../results/drug_target_family_pred_class_based_mcc_'+ representation_name +'_'+dataset+'.npy', mcc_perclass) 
-        save('../results/drug_target_family_pred_class_based_support_'+ representation_name +'_'+dataset+'.npy', sup_perclass) 
+        save('../results/Drug_target_protein_family_classification_f1_'+ representation_name +'_'+dataset+'.npy', f1)
+        save('../results/Drug_target_protein_family_classification_accuracy_'+ representation_name +'_'+dataset+'.npy', accuracy)
+        save('../results/Drug_target_protein_family_classification_mcc_'+ representation_name +'_'+dataset+'.npy', mcc) 
+        save('../results/Drug_target_protein_family_classification_class_based_f1_'+ representation_name +'_'+dataset+'.npy', f1_perclass)
+        save('../results/Drug_target_protein_family_classification_class_based_accuracy_'+ representation_name +'_'+dataset+'.npy', ac_perclass)
+        save('../results/Drug_target_protein_family_classification_class_based_mcc_'+ representation_name +'_'+dataset+'.npy', mcc_perclass) 
+        save('../results/Drug_target_protein_family_classification_class_based_support_'+ representation_name +'_'+dataset+'.npy', sup_perclass) 
 #score_protein_rep("embedding_dataframes/SeqVec_dataframe_multi_col.pkl")
 
