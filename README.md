@@ -16,9 +16,9 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 ## Organization of this repository
 
 - PROBE (Protein RepresentatiOn BEnchmark) is tool that can be used to evaluate any protein representation model. The tool can be found under 
-**generalized_representation_benchmark/PROBE** folder. Also study results can be reproduced easily using PROBE.
+**bin** folder. Also study results can be reproduced easily using PROBE.
 
-- **Benchmark_Study** folder includes codes used for benchmarks presented in the paper.
+- **paper_reproduction_scripts** folder includes codes used for benchmarks presented in the paper.
 
 - **function_prediction** folder is under **Benchmark_Study** and includes codes used for "Ontology-based protein function prediction" task.
 
@@ -28,7 +28,7 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
 
 - **binding_affinity_estimation** folder is under **Benchmark_Study** and includes codes used for "Protein-protein binding affinity estimation" task.
 
-- **data/preprocess** folder is under **Benchmark_Study** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
+- **data/preprocess** folder is under **paper_reproduction_scripts** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
 
 # Data Availability
 - The large files used for the benchmark is shared on [GDrive](https://drive.google.com/drive/folders/1adgnOlb-4gQLgxEdsFmwtYFoYaiq5Eva) and the main directory structure is shown below.
