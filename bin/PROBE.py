@@ -31,7 +31,7 @@ if args["benchmark"] in  ["similarity","all"]:
     print("\n\nProtein Similarity Calculation Started...\n")
     ssi.representation_dataframe = representation_dataframe
     ssi.representation_name = args["representation_name"]
-    ssi.protein_names = smc.representation_dataframe['Entry'].tolist()
+    ssi.protein_names = ssi.representation_dataframe['Entry'].tolist()
     ssi.similarity_tasks = args["similarity_tasks"]
     ssi.detailed_output = args["detailed_output"]
     ssi.calculate_all_correlations()
