@@ -71,7 +71,7 @@ Other than that the reusable 20 precalculated protein representation vectors for
     - Clonning this repository  (this option is advised if you plan to run additional tasks over the default ones, as the run time may be elevated).
   
   - Prepraration of the input vector dataset: 
-    - Generate your representation vectors for all human proteins (i.e. canonical isoforms) and SKEMPI dataset which can be found at [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing) file.
+    - Generate your representation vectors for all human proteins (i.e. [canonical isoforms](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing))   Also SKEMPI dataset which can be found at [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing) file.
     - File format:
       - Each row corresponds to the representation vector of a particular protein.
       - The first column header should be "Entry" and the rows contain the respective UniProt protein accessions.
