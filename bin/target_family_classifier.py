@@ -98,7 +98,7 @@ def score_protein_rep(dataset):
     y = []
     ne = []
 
-    print("\n\nPreprocess data for drug-target protein family prediction ...\n ")
+    print("\n\nPreprocessing data for drug-target protein family prediction...\n ")
     for index, row in tqdm(protein_list.iterrows(), total=len(protein_list)):
         pdrow = dataframe.loc[dataframe['Entry'] == row['Entry']]
         if len(pdrow) != 0:
@@ -139,7 +139,7 @@ def score_protein_rep(dataset):
 
     conf = pd.DataFrame()
 
-    print('Calculating family predictions...\n')
+    print('Producing protein family predictions...\n')
     for i in tqdm(range(10)): 
         clf = linear_model.SGDClassifier(class_weight="balanced", loss="log", penalty="elasticnet", max_iter=1000, tol=1e-3,random_state=i,n_jobs=-1)
         clf2 = OneVsRestClassifier(clf,n_jobs=-1)

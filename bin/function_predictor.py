@@ -29,7 +29,7 @@ def check_for_at_least_two_class_sample_exits(y):
     for column in y:
         column_sum = np.sum(y[column].array)
         if column_sum < 2:
-           print('At least 2 positive samples needed for each class {0} class has {1} positive samples'.format(column,column_sum))
+           print('At least 2 positive samples are required for each class {0} class has {1} positive samples'.format(column,column_sum))
            return False
     return True
 
@@ -46,7 +46,7 @@ def create_valid_kfold_object_for_multilabel_splits(X,y,kf):
         value = sample_class_occurance[key]
         if value < 2:
             random_state = np.random.randint(1000)
-            print("Random state changed since at least two positive samples are needed in different train/test folds.\
+            print("Random state is changed since at least two positive samples are required in different train/test folds.\
                     \nHowever, only one fold exits with positive samples for class {0}".format(key))
             print("Selected random state is {0}".format(random_state))
             kf = KFold(n_splits=5, shuffle=True, random_state=random_state)
@@ -128,14 +128,14 @@ def ProtDescModel():
     cv_std_results = []
 
     for dt in tqdm(filtered_datasets,total=len(filtered_datasets)):
-        print(r"Protein function prediction started for data set {0}".format(dt.split(".")[0]))
+        print(r"Protein function prediction is started for the dataset: {0}".format(dt.split(".")[0]))
         dt_file = pd.read_csv(r"../data/auxilary_input/GO_datasets/{0}".format(dt),sep="\t")
         dt_merge = dt_file.merge(representation_dataframe,left_on="Protein_Id",right_on="Entry")
 
         dt_X = dt_merge['Vector']
         dt_y = dt_merge.iloc[:,1:-2]
         if check_for_at_least_two_class_sample_exits(dt_y) == False:
-            print(r"No funtion will predicted for dataset {0}".format(dt.split(".")[0]))
+            print(r"No funtion will be predicted for the dataset: {0}".format(dt.split(".")[0]))
             continue
         #print("raw dt vs. dt_merge: {} - {}".format(len(dt_file),len(dt_merge)))
         #print("Calculating predictions for " +  dt.split(".")[0])

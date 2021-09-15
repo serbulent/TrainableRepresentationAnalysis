@@ -14,7 +14,7 @@ skempi_vectors_path = None
 representation_name = None
 
 def load_representation(multi_col_representation_vector_file_path):
-    print("\nLoading representation vectors...")
+    print("\nLoading representation vectors...\n")
     multi_col_representation_vector = pd.read_csv(multi_col_representation_vector_file_path)
     vals = multi_col_representation_vector.iloc[:,1:(len(multi_col_representation_vector.columns))]
     original_values_as_df = pd.DataFrame({'PDB_ID': pd.Series([], dtype='str'),'Vector': pd.Series([], dtype='object')})
@@ -164,7 +164,7 @@ def calculate_vector_multiplications(skempi_vectors_df):
     multiplied_vectors = pd.DataFrame({'Protein1': pd.Series([], dtype='str'),\
                                        'Protein2': pd.Series([], dtype='str'),\
                                        'Vector': pd.Series([], dtype='object')}) 
-    print("Element-wise vector multiplications are calculating")
+    print("Element-wise vector multiplications are being calculated")
     rep_prot_list = list(skempi_vectors_df['PDB_ID'])
     for index,row in tqdm.tqdm(ppi_affinity_df.iterrows()):
         if row['Protein1'] in rep_prot_list and row['Protein2'] in rep_prot_list:
@@ -184,6 +184,6 @@ def predict_affinities_and_report_results():
     multiplied_vectors_df = calculate_vector_multiplications(skempi_vectors_df)
     model = linear_model.BayesianRidge()
     result_df, result_detail_df = predictAffinityWithModel(model,multiplied_vectors_df)
-    result_df.to_csv(r"../results/Affinit_prediction_skempiv1_{0}.csv".format(representation_name),index=False)
-    result_detail_df.to_csv(r"../results/Affinit_prediction_skempiv1_{0}_detail.csv".format(representation_name),index=False)
+    result_df.to_csv(r"../results/Affinity_prediction_skempiv1_{0}.csv".format(representation_name),index=False)
+    result_detail_df.to_csv(r"../results/Affinity_prediction_skempiv1_{0}_detail.csv".format(representation_name),index=False)
 

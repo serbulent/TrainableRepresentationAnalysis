@@ -62,7 +62,7 @@ def parallelSimilarity(paramList):
     return similarity_list
 
 def calculateCorrelationforOntology(aspect,matrix_type):
-    print("\n\nSemantic similarity correlation calculation for aspect:" + aspect + " using matrix:" + matrix_type + " ...\n")
+    print("\n\nSemantic similarity correlation calculation for aspect: " + aspect + " using matrix/dataset: " + matrix_type + " ...\n")
     #Clear lists before each aspect
     similarity_list[:] = []
     proteinListNew[:] = []

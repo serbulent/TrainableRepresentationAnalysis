@@ -6,6 +6,8 @@ import target_family_classifier as tfc
 import function_predictor as fp
 import binding_affinity_estimator as bae
 
+print("\n\nPROBE (Protein RepresentatiOn Benchmark) run is started...\n\n")
+
 with open('probe_config.yaml') as f:
 	args = yaml.load(f, Loader=yaml.FullLoader)
 
@@ -24,11 +26,11 @@ def load_representation(multi_col_representation_vector_file_path):
     return original_values_as_df
 
 if args["benchmark"] in  ["similarity","function","all"]:
-    print("Representation Vector is Loading... \n\n")
+    print("\nRepresentation vectors are loading...\n")
     representation_dataframe = load_representation(args["representation_file_human"])
  
 if args["benchmark"] in  ["similarity","all"]:
-    print("\n\nProtein Similarity Calculation Started...\n")
+    print("\nSemantic similarity Inference Benchmark is running...\n")
     ssi.representation_dataframe = representation_dataframe
     ssi.representation_name = args["representation_name"]
     ssi.protein_names = ssi.representation_dataframe['Entry'].tolist()
@@ -36,7 +38,7 @@ if args["benchmark"] in  ["similarity","all"]:
     ssi.detailed_output = args["detailed_output"]
     ssi.calculate_all_correlations()
 if args["benchmark"] in  ["function","all"]:
-    print("\n\n Ontology Based Protein Function Prediction Started...\n")
+    print("\n\nOntology-based protein function prediction benchmark is running...\n")
     fp.aspect_type = args["function_prediction_aspect"]
     fp.dataset_type = args["function_prediction_dataset"]
     fp.representation_dataframe = representation_dataframe
@@ -44,17 +46,17 @@ if args["benchmark"] in  ["function","all"]:
     fp.detailed_output = args["detailed_output"]
     fp.pred_output()
 if args["benchmark"] in  ["family","all"]:
-    print("\n\nDrug Target Protein Family Prediction Started...\n")
+    print("\n\nDrug target protein family classification benchmark is running...\n")
     tfc.representation_path = args["representation_file_human"]
     tfc.representation_name = args["representation_name"]
     tfc.detailed_output = args["detailed_output"]
     for dataset in args["family_prediction_dataset"]:
 	    tfc.score_protein_rep(dataset)
 if args["benchmark"] in  ["affinity","all"]:
-    print("\n\nProtein Affinity Prediction Started...\n")
+    print("\n\nProtein-protein binding affinity estimation benchmark is running...\n")
     bae.skempi_vectors_path = args["representation_file_affinity"]
     bae.representation_name = args["representation_name"]
     bae.predict_affinities_and_report_results()
-
+print("\n\nPROBE (Protein RepresentatiOn Benchmark) run is finished...\n")
 
 
