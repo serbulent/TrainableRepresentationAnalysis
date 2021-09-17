@@ -1,4 +1,5 @@
-# Evaluation of Methods for Protein Representation Learning
+# PROBE (Protein RepresentatiOn BEnchmark): Function-Centric Evaluation of Protein Representation Methods
+
 Evaluation of Methods for Protein Representation Learning: A Quantitative Analysisis an evalutation and review study on learned protein representations.
 
 - The study is an investigation of the available learned protein representation methods.
