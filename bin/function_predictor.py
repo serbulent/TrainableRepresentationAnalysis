@@ -149,7 +149,7 @@ def ProtDescModel():
         predictions = dt_merge.iloc[:,:6]
         predictions["predicted_values"] = list(model[3].toarray())
         if detailed_output:
-            predictions.to_csv(r"../results/Ontology_based_function_prediciton_{1}_{0}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
+            predictions.to_csv(r"../results/Ontology_based_function_prediction_{1}_{0}_predictions.tsv".format(representation_name,dt.split(".")[0]),sep="\t",index=None)
 
     return (cv_results, cv_mean_results,cv_std_results)             
 
