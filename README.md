@@ -8,7 +8,7 @@
   - classifying drug target proteins according to their families, and
   - estimating protein-protein binding affinities.
 
-- PROBE is part of the the study entitled [Evaluation of Methods for Protein Representation Learning: A Quantitative Analysis](https://www.biorxiv.org/content/10.1101/2020.10.28.359828v1) which is schematically summarized in the figure below;:<br/>
+- PROBE is part of the the study entitled [Evaluation of Methods for Protein Representation Learning: A Quantitative Analysis](https://www.biorxiv.org/content/10.1101/2020.10.28.359828v1) which is schematically summarized in the figure below:<br/>
  
  ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/evalprotrep_summary_figure.jpg)
 
@@ -18,10 +18,11 @@
 - **Step-by-step operation:**
 1. Clone this repository
 2. Install dependencies (given below)
-3. Download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) place it in the directory name 'data'.
-4. Edit the configuration file (example config file is given below) by changing parameters as desired and setting paths of your file/files.
-5. Go to the bin directory and run PROBE.py
- - i.e. cd bin && python PROBE.py
+3. Download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) place it under the directory 'data'.
+4. If you wish to benchmark protein representation methods from the literature (that are included in our study) download [protein representation vector files](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO) and place csv formatted vector files directly under the directory 'data/representation_vectors'. If you wish to benchmark your own protein representation method please prepare the vector files by following the steps provided under "Benchmarking your own representation model" below, and place csv formatted vector files directly under the directory 'data/representation_vectors'.
+5. Edit the configuration file (example config file is provided below) by changing parameters as desired and setting paths of your file/files.
+6. cd into the bin directory and run PROBE.py
+ - i.e., python PROBE.py
 
 - **Dependencies**
   - Python 3.8.1
@@ -127,13 +128,13 @@ detailed_output: False
 - Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. Similar to reproducing the analyses done in the study, there are two possible ways to do this: (i) running the tool on [Code Ocean](https://codeocean.com/capsule/858401), and (ii) cloning the Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
   
   - Prepraration of the input vector dataset: 
-    - Generate your representation vectors for all human proteins (i.e. [canonical isoforms](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing))   Also SKEMPI dataset which can be found at [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing) file.
+    - Generate your representation vectors for all human proteins ([amino acid sequences of canonical isoform human proteins](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing)), and for the samples in the SKEMPI dataset [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing).
   - Format of the protein representation file:
     - Each row corresponds to the representation vector of a particular protein.
     - Columns: first column's header one should be "Entry", and the rest of the column headers should contain the UniProt protein accessions of respective proteins (i.e., each column in this file corresponds to a different protein).
     - Rows: After column headers, the rows of the first column should contain the index number that correspond to dimensions of the vector, rows of other columns should contain representation vector values for the corresponding proteins (i.e. each row in this file corresponds to a dimension of representation vectors).
     - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
-    - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
+  - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
   - Example representation vector files can be found in the folder [representation_vectors_dataframes](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO).
   - The config file should be changed to provide the name of the new representation vector dataset, and to change other parameters as desired. 
   - Finally, the benchmark tests can be run (either on CodeOcean or locally by cloning the GitHub repo) as described above.
