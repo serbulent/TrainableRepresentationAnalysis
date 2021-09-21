@@ -1,6 +1,6 @@
 # PROBE (Protein RepresentatiOn BEnchmark): Function-Centric Evaluation of Protein Representation Methods
 
-- This tool runs benchmark analyses on protein representation/feature vectors of any representation learning method in order to evaluate its predictive performance on protein function related predictive tasks, and to and compare it other methods from literature.
+- PROBE runs benchmark analyses on protein representation/feature vectors of any representation learning method in order to evaluate its predictive performance on protein function related predictive tasks, and to and compare it other methods from literature.
 
 - Aiming to evaluate how much each representation model captures different facets of functional information, we constructed and applied 4 independent benchmark tests based on;
   - inferring semantic similarities between proteins,
@@ -8,7 +8,7 @@
   - classifying drug target proteins according to their families, and
   - estimating protein-protein binding affinities.
 
-- The study is schematically summarized in the figure below;:<br/>
+- PROBE is part of the the study entitled [Evaluation of Methods for Protein Representation Learning: A Quantitative Analysis](https://www.biorxiv.org/content/10.1101/2020.10.28.359828v1) which is schematically summarized in the figure below;:<br/>
  
  ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/evalprotrep_summary_figure.jpg)
 
