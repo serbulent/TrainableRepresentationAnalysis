@@ -20,7 +20,7 @@
 2. Install dependencies (given below)
 3. Download [datasets](https://drive.google.com/file/d/1k-MjkUbC80wXEMDutSd9qTcxVEflHoC_/view?usp=sharing), unzip and place the folders "auxilary_input" and "preprocess" directly  under the directory 'data'.
 4. If you wish to benchmark one or more of the 20 protein representation methods from the literature (that are included in our study) download [representation vector files for all human proteins](https://drive.google.com/drive/u/1/folders/1WmYyaBhOYtI4Hzbsg2sTQHRN6LVrYFhw) for benchmarks 1, 2 & 3, and download [representation vector files for the samples in the SKEMPI dataset](https://drive.google.com/drive/u/1/folders/18sVmR0Xx_QfmjeqCPxz3gS5DS09FqS_T) for benchmark 4, and place those csv formatted vector files directly under the directory 'data/representation_vectors'. If you wish to benchmark your own protein representation method, please prepare your representation vector files by following the steps provided under "Benchmarking your own representation model" below, and place csv formatted vector files directly under the directory 'data/representation_vectors'.
-5. Edit the configuration file "probe_config.yaml" by changing parameters as desired and setting paths of your file/files (the content of the example config file that running the benchmark for the "AAC" representation method is also provided below).
+5. Edit the configuration file "probe_config.yaml" by changing parameters as desired and setting paths of your file/files (the content of the example config file for running the benchmark analyses on the "AAC" representation method is also provided below).
 6. cd into the bin directory and run PROBE.py
  - i.e., python PROBE.py
 
@@ -125,10 +125,10 @@ detailed_output: False
 
 # **Benchmarking your own representation model**
 
-- Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. There are two possible ways to do this: (i) running the online tool on [Code Ocean](https://codeocean.com/capsule/858401), and (ii) cloning this Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
+- Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. There are two possible ways to do this: (i) running the online tool on [Code Ocean](https://codeocean.com/capsule/8584011/tree), and (ii) cloning this Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
   
   - Prepraration of the input vector dataset: 
-    - Generate your representation vectors for all human proteins ([amino acid sequences of canonical isoform human proteins](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing)), and for the samples in the SKEMPI dataset [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing).
+    - Generate your representation vectors for all human proteins ([amino acid sequences of canonical isoform human proteins](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing)), and for the samples in the [SKEMPI dataset](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing).
   - Format of the protein representation file:
     - Each row corresponds to the representation vector of a particular protein.
     - Columns: first column's header one should be "Entry", and the rest of the column headers should contain the UniProt protein accessions of respective proteins (i.e., each column in this file corresponds to a different protein).
