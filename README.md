@@ -13,14 +13,14 @@
  ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/evalprotrep_summary_figure.jpg)
 
 
-# How to Run PROBE (Protein RepresentatiOn BEnchmark)
+# How to Run PROBE
 
 - **Step-by-step operation:**
 1. Clone this repository
 2. Install dependencies (given below)
-3. Download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) place it under the directory 'data'.
-4. If you wish to benchmark one or more of the 20 protein representation methods from the literature (that are included in our study) download [representation vector files for all human proteins](https://drive.google.com/drive/u/1/folders/1WmYyaBhOYtI4Hzbsg2sTQHRN6LVrYFhw) for benchmarks 1, 2 & 3, and download [representation vector files for the samples in the SKEMPI dataset](https://drive.google.com/drive/u/1/folders/18sVmR0Xx_QfmjeqCPxz3gS5DS09FqS_T) for benchmark 4, and place those csv formatted vector files directly under the directory 'data/representation_vectors'. If you wish to benchmark your own protein representation method, please prepare the vector files by following the steps provided under "Benchmarking your own representation model" below, and place csv formatted vector files directly under the directory 'data/representation_vectors'.
-5. Edit the configuration file (example config file is provided below) by changing parameters as desired and setting paths of your file/files.
+3. Download [datasets](https://drive.google.com/file/d/1k-MjkUbC80wXEMDutSd9qTcxVEflHoC_/view?usp=sharing), unzip and place the folders "auxilary_input" and "preprocess" directly  under the directory 'data'.
+4. If you wish to benchmark one or more of the 20 protein representation methods from the literature (that are included in our study) download [representation vector files for all human proteins](https://drive.google.com/drive/u/1/folders/1WmYyaBhOYtI4Hzbsg2sTQHRN6LVrYFhw) for benchmarks 1, 2 & 3, and download [representation vector files for the samples in the SKEMPI dataset](https://drive.google.com/drive/u/1/folders/18sVmR0Xx_QfmjeqCPxz3gS5DS09FqS_T) for benchmark 4, and place those csv formatted vector files directly under the directory 'data/representation_vectors'. If you wish to benchmark your own protein representation method, please prepare your representation vector files by following the steps provided under "Benchmarking your own representation model" below, and place csv formatted vector files directly under the directory 'data/representation_vectors'.
+5. Edit the configuration file "probe_config.yaml" by changing parameters as desired and setting paths of your file/files (the content of the example config file that running the benchmark for the "AAC" representation method is also provided below).
 6. cd into the bin directory and run PROBE.py
  - i.e., python PROBE.py
 
@@ -77,7 +77,7 @@ detailed_output: False
 
 ```
 
-# Definition of output files
+# Definition of output files (results)
 
   - **Default output (these files are produced in the default run mode)**:
 
@@ -125,7 +125,7 @@ detailed_output: False
 
 # **Benchmarking your own representation model**
 
-- Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. Similar to reproducing the analyses done in the study, there are two possible ways to do this: (i) running the tool on [Code Ocean](https://codeocean.com/capsule/858401), and (ii) cloning the Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
+- Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. There are two possible ways to do this: (i) running the online tool on [Code Ocean](https://codeocean.com/capsule/858401), and (ii) cloning this Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
   
   - Prepraration of the input vector dataset: 
     - Generate your representation vectors for all human proteins ([amino acid sequences of canonical isoform human proteins](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing)), and for the samples in the SKEMPI dataset [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing).
@@ -135,9 +135,9 @@ detailed_output: False
     - Rows: After column headers, the rows of the first column should contain the index number that correspond to dimensions of the vector, rows of other columns should contain representation vector values for the corresponding proteins (i.e. each row in this file corresponds to a dimension of representation vectors).
     - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
   - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
-  - Example representation vector files can be found in the folder [representation_vectors_dataframes](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO).
-  - The config file should be changed to provide the name of the new representation vector dataset, and to change other parameters as desired. 
-  - Finally, the benchmark tests can be run (either on CodeOcean or locally by cloning the GitHub repo) as described above.
+  - Example representation vector files can be found in the "data/representation_vectors" folder.
+  - The config file "probe_config.yaml" should be changed to provide the name and the path of the new representation vector dataset. 
+  - Finally, the benchmark tests can be run as described above in the section: "How to Run PROBE".
 
 
 # License
