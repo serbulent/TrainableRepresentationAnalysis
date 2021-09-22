@@ -79,6 +79,8 @@ detailed_output: False
 
 # Definition of output files (results)
 
+  - The files described below are generated as the result/output of a PROBE run. They are located under the "results" folder. This folder currently contains the output files of an example PROBE benchmark run on the vectors of the "AAC" protein representation method.
+
   - **Default output (these files are produced in the default run mode)**:
 
     - Semantic similarity prediction:
