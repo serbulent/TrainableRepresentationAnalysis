@@ -1,0 +1,4 @@
+Semantic Aspect,CosineSim_Correlation,CosineSim_Correlation p-value, ManhattanSim_Correlation,ManhattanSim_Correlation p-value, EuclidianSim_Correlation,EuclidianSim_Correlation p-value 
+MF,0.0431,0.0,0.04912,0.0,0.04132,0.0
+BP,0.03676,0.0,0.0397,0.0,0.03713,0.0
+CC,0.0989,0.0,0.09393,0.0,0.09855,0.0
