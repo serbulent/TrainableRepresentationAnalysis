@@ -133,8 +133,7 @@ detailed_output: False
     - Generate your representation vectors for all human proteins ([amino acid sequences of canonical isoform human proteins](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing)), and for the samples in the [SKEMPI dataset](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing).
   - Format of the protein representation file:
     - Each row corresponds to the representation vector of a particular protein.
-    - Columns: first column's header one should be "Entry", and the rest of the column headers should contain the UniProt protein accessions of respective proteins (i.e., each column in this file corresponds to a different protein).
-    - Rows: After column headers, the rows of the first column should contain the index number that correspond to dimensions of the vector, rows of other columns should contain representation vector values for the corresponding proteins (i.e. each row in this file corresponds to a dimension of representation vectors).
+    - Rows & columns: first column's header one should be "Entry", and the rest of the column headers should contain the index number that correspond to dimensions of the vector. After the column header, the rows of the first column should contain the UniProt protein accessions of respective proteins (i.e., each row in this file corresponds to a different protein), rows of other columns should contain representation vector values for the corresponding proteins (i.e. each column in this file corresponds to a dimension of representation vectors).
     - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
   - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
   - Example representation vector files can be found in the "data/representation_vectors" folder.
