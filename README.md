@@ -1,7 +1,6 @@
-# Evaluation of Methods for Protein Representation Learning
-Evaluation of Methods for Protein Representation Learning: A Quantitative Analysisis an evalutation and review study on learned protein representations.
+# PROBE (Protein RepresentatiOn BEnchmark): Function-Centric Evaluation of Protein Representation Methods
 
-- The study is an investigation of the available learned protein representation methods.
+- PROBE runs benchmark analyses on protein representation/feature vectors of any representation learning method in order to evaluate its predictive performance on protein function related predictive tasks, and to and compare it other methods from literature.
 
 - Aiming to evaluate how much each representation model captures different facets of functional information, we constructed and applied 4 independent benchmark tests based on;
   - inferring semantic similarities between proteins,
@@ -9,82 +8,21 @@ Evaluation of Methods for Protein Representation Learning: A Quantitative Analys
   - classifying drug target proteins according to their families, and
   - estimating protein-protein binding affinities.
 
-- The study is summarized in the figure below;<br/><br/> 
+- PROBE is part of the the study entitled [Evaluation of Methods for Protein Representation Learning: A Quantitative Analysis](https://www.biorxiv.org/content/10.1101/2020.10.28.359828v1) which is schematically summarized in the figure below:<br/>
  
  ![Summary of The Study](https://github.com/serbulent/TrainableRepresentationAnalysis/blob/master/evalprotrep_summary_figure.jpg)
 
-## Organization of this repository
 
-- PROBE (Protein RepresentatiOn BEnchmark) is tool that can be used to evaluate any protein representation model. The tool can be found under 
-**[bin](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/bin)** folder. Also study results can be reproduced easily using PROBE.
+# How to Run PROBE
 
-- **[paper_reproduction_scripts](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts)** folder includes codes used for benchmarks presented in the paper.
-
-- **[function_prediction](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/function_prediction)** folder is under **paper_reproduction_scripts** and includes codes used for "Ontology-based protein function prediction" task.
-
-- **[semantic_similarity_inference](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/semantic_similarity_inference)** folder is under **paper_reproduction_scripts** and includes codes used for "Semantic similarity inference" task.
-
-- **[target_family_classification](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/target_family_classification)** folder is under **paper_reproduction_scripts** and includes codes used for "Drug-target protein family classification" task.
-
-- **[binding_affinity_estimation](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/binding_affinity_estimation)** folder is under **paper_reproduction_scripts** and includes codes used for "Protein-protein binding affinity estimation" task.
-
-- **[preprocess](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts/preprocess)** folder is under **[paper_reproduction_scripts](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/paper_reproduction_scripts)** and includes codes used for data preprocessing for "Ontology-based protein function prediction" and "Semantic similarity inference" tasks.
-
-# Data Availability
-- The large files used for the benchmark is shared on [GDrive](https://drive.google.com/drive/folders/1adgnOlb-4gQLgxEdsFmwtYFoYaiq5Eva) and the main directory structure is shown below.
-
-The data needed by the PROBE tool is located under "PROBE" folder. The data belongs to benchmark study was located under the "Benchmark_IO_data" folder. Each task and  shared data has its own folder. The directory structure is self-explanatory and standard for all tasks, hence some of the folders might be empty based on task for now. 
-
-Other than that the reusable 20 precalculated protein representation vectors for human proteins can be found under **"[Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/HUMAN_PROTEIN_VECTORS](https://drive.google.com/drive/u/1/folders/1WmYyaBhOYtI4Hzbsg2sTQHRN6LVrYFhw)"** folder for all tasks except protein-protein binding affinity estimation. The protein representation vectors belongs to protein-protein binding affinity estimation task is in **"[Benchmark_IO_Data/Shared_Data/Representations/representations_vectors/representation_vector_dataframes/SKEMPI](https://drive.google.com/drive/u/1/folders/18sVmR0Xx_QfmjeqCPxz3gS5DS09FqS_T)"** folder for further use.
-
-<pre>
--PROBE 
--Benchmark_IO_data
-|
-|---GO_prediction
-   |
-   |---preprocess
-   |---input_data
-   |---results
-|---Embedding_Similarity
-   |
-   |---preprocess
-   |---input_data
-   |---results
-|---Protein_Family_Prediction
-   |
-   |---preprocess
-   |---input_data
-   |---results
-|---Protein_Affinity_Prediction
-   |
-   |---preprocess
-   |---input_data
-   |---results
-|---Shared_Data
-</pre>
-
-# **Benchmarking your own representation model**
-
-- Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. Similar to reproducing the analyses done in the study, there are two possible ways to do this: (i) running the tool on [Code Ocean](https://codeocean.com/capsule/858401), and (ii) cloning the Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
-  
-  - Prepraration of the input vector dataset: 
-    - Generate your representation vectors for all human proteins (i.e. [canonical isoforms](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing))   Also SKEMPI dataset which can be found at [SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing) file.
-  - Format of the protein representation file:
-    - Each row corresponds to the representation vector of a particular protein.
-    - Columns: first column's header one should be "Entry", and the rest of the column headers should contain the UniProt protein accessions of respective proteins (i.e., each column in this file corresponds to a different protein).
-    - Rows: After column headers, the rows of the first column should contain the index number that correspond to dimensions of the vector, rows of other columns should contain representation vector values for the corresponding proteins (i.e. each row in this file corresponds to a dimension of representation vectors).
-    - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
-    - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
-  - Example representation vector files can be found in the folder [representation_vectors_dataframes](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO).
-  - The config file should be changed to provide the name of the new representation vector dataset, and to change other parameters as desired. 
-  - Finally, the benchmark tests can be run (either on CodeOcean or locally by cloning the GitHub repo) as described above.
-
-# How to Run PROBE (Protein RepresentatiOn BEnchmark)
-
-- This tool runs benchmark analyses on the protein representation/feature vectors of different representation learning methods to evaluate and compare their predictive performance on protein function related predictive tasks.
-
-- The tool can be run on [Code Ocean](https://codeocean.com/capsule/858401) or be clonned from this repository which can be found in the [bin](https://github.com/serbulent/TrainableRepresentationAnalysis/tree/master/bin) directory.
+- **Step-by-step operation:**
+1. Clone this repository
+2. Install dependencies (given below)
+3. Download [datasets](https://drive.google.com/file/d/1k-MjkUbC80wXEMDutSd9qTcxVEflHoC_/view?usp=sharing), unzip and place the folders "auxilary_input" and "preprocess" directly  under the directory 'data'.
+4. If you wish to benchmark one or more of the 20 protein representation methods from the literature (that are included in our study) download [representation vector files for all human proteins](https://drive.google.com/drive/u/1/folders/1WmYyaBhOYtI4Hzbsg2sTQHRN6LVrYFhw) for benchmarks 1, 2 & 3, and download [representation vector files for the samples in the SKEMPI dataset](https://drive.google.com/drive/u/1/folders/18sVmR0Xx_QfmjeqCPxz3gS5DS09FqS_T) for benchmark 4, and place those csv formatted vector files directly under the directory 'data/representation_vectors'. If you wish to benchmark your own protein representation method, please prepare your representation vector files by following the steps provided under "Benchmarking your own representation model" below, and place csv formatted vector files directly under the directory 'data/representation_vectors'.
+5. Edit the configuration file "probe_config.yaml" by changing parameters as desired and setting paths of your file/files (the content of the example config file for running the benchmark analyses on the "AAC" representation method is also provided below).
+6. cd into the bin directory and run PROBE.py
+ - i.e., python PROBE.py
 
 - **Dependencies**
   - Python 3.8.1
@@ -92,16 +30,9 @@ Other than that the reusable 20 precalculated protein representation vectors for
   - PyYaml 5.1
   - Scikit-Learn 0.22
   - Scikit-MultiLearn 0.2.0
-  - Tqdm 4.51 
+  - Tqdm 4.51
 
-- **Step-by-step operation:**
-1. Clone this repository
-2. Install dependencies
-3. Download ['data' directory](https://drive.google.com/drive/folders/1N2TzFVSgdt2oZECmpTtpGHvJQMvza0i6?usp=sharing) place it with directory name 'data' as shown in the repository.
-4. Edit configuration file and set paths of your representation file/files.
-5. Go to the bin directory and run the PROBE.py
-
- - i.e. cd bin && python PROBE.py
+- It is also possible to run PROBE online via [Code Ocean](https://codeocean.com/capsule/8584011/tree).
 
 - **Example configuration file:**
 
@@ -146,7 +77,9 @@ detailed_output: False
 
 ```
 
-# Definition of output files
+# Definition of output files (results)
+
+  - The files described below are generated as the result/output of a PROBE run. They are located under the "results" folder. This folder currently contains the output files of an example PROBE benchmark run on the vectors of the "AAC" protein representation method.
 
   - **Default output (these files are produced in the default run mode)**:
 
@@ -191,26 +124,21 @@ detailed_output: False
       - "Drug_target_protein_family_classification_confusion_dataset_name_representation_name.csv": This file includes confusion matrices of each fold in the 10-fold cross-validation.
       - "Drug_target_protein_family_classification_class_based_support_dataset_name_representation_name.npy": This file includes support values for each class, per fold used in the 10-fold cross-validation.
 
-- **Benchmarking your own representation model:**
 
-  - Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. There are two possible ways to do this: (i) running the tool/capsule on CodeOcean, and (ii) cloning the Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
+# **Benchmarking your own representation model**
 
-  - Prepraration of the input representation vector dataset:
-
-    - Generate your representation vectors for all human proteins ([amino acid sequences of canonical isoform human proteins](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing)), and for the samples in the SKEMPI dataset ([SKEMPI_seq.txt](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing)).
-    - Format of the protein representation file:
-      - Each row corresponds to the representation vector of a particular protein.
-      - Columns: first column's header one should be "Entry", and the rest of the column headers should contain the UniProt protein accessions of respective proteins (i.e., each column in this file corresponds to a different protein).
-      - Rows: After column headers, the rows of the first column should contain the index number that correspond to dimensions of the vector, rows of other columns should contain representation vector values for the corresponding proteins (i.e. each row in this file corresponds to a dimension of representation vectors).
-      - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
-
-  - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
-
-  - Example representation vector files can be found in the folder: [representation_vectors_dataframes](https://drive.google.com/drive/u/1/folders/1B_TuRtz88Tv4R02WjliMXkbrJB5g5YXO).
-
-  - The config file should be changed to provide the name of the new representation vector dataset, and to change other parameters as desired.
+- Semantic similarity inference, Ontology-based protein function prediction and drug target protein family classification tasks can be run for any protein representation vector dataset. There are two possible ways to do this: (i) running the online tool on [Code Ocean](https://codeocean.com/capsule/8584011/tree), and (ii) cloning this Github repo and running locally (this option is advised if you plan to run additional tasks over the default ones, as the runtime may significantly increase).
   
-  - Finally, the benchmark tests can be run (either on CodeOcean or locally by cloning the GitHub repo) as described above.
+  - Prepraration of the input vector dataset: 
+    - Generate your representation vectors for all human proteins ([amino acid sequences of canonical isoform human proteins](https://drive.google.com/file/d/1wXF2lmj4ZTahMrl66QpYM2TvHmbcIL6b/view?usp=sharing)), and for the samples in the [SKEMPI dataset](https://drive.google.com/file/d/1m5jssC0RMsiFT_w-Ykh629Pw_An3PInI/view?usp=sharing).
+  - Format of the protein representation file:
+    - Each row corresponds to the representation vector of a particular protein.
+    - Rows & columns: first column's header one should be "Entry", and the rest of the column headers should contain the index number that correspond to dimensions of the vector. After the column header, the rows of the first column should contain the UniProt protein accessions of respective proteins (i.e., each row in this file corresponds to a different protein), rows of other columns should contain representation vector values for the corresponding proteins (i.e. each column in this file corresponds to a dimension of representation vectors).
+    - All representation vectors in a file should have the same size (i.e., fixed sized vectors).
+  - Representation vectors of the whole dataset should be saved in a comma separated (csv) text file.
+  - Example representation vector files can be found in the "data/representation_vectors" folder.
+  - The config file "probe_config.yaml" should be changed to provide the name and the path of the new representation vector dataset. 
+  - Finally, the benchmark tests can be run as described above in the section: "How to Run PROBE".
 
 
 # License
