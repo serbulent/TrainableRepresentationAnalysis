@@ -18,7 +18,7 @@
 - **Step-by-step operation:**
 1. Clone this repository
 2. Install dependencies (given below)
-3. Download [datasets](https://drive.google.com/file/d/1k-MjkUbC80wXEMDutSd9qTcxVEflHoC_/view?usp=sharing), unzip and place the folders "auxilary_input" and "preprocess" directly  under the directory 'data'.
+3. Download [datasets](https://drive.google.com/file/d/1elGfjI4jwzcjOBT6LoMnz-7DtdwPFV6i/view?usp=sharing), unzip and place the folders "auxilary_input" and "preprocess" directly  under the directory 'data'.
 4. If you wish to benchmark one or more of the 20 protein representation methods from the literature (that are included in our study) download [representation vector files for all human proteins](https://drive.google.com/drive/u/1/folders/1WmYyaBhOYtI4Hzbsg2sTQHRN6LVrYFhw) for benchmarks 1, 2 & 3, and download [representation vector files for the samples in the SKEMPI dataset](https://drive.google.com/drive/u/1/folders/18sVmR0Xx_QfmjeqCPxz3gS5DS09FqS_T) for benchmark 4, and place those csv formatted vector files directly under the directory 'data/representation_vectors'. If you wish to benchmark your own protein representation method, please prepare your representation vector files by following the steps provided under "Benchmarking your own representation model" below, and place csv formatted vector files directly under the directory 'data/representation_vectors'.
 5. Edit the configuration file "probe_config.yaml" by changing parameters as desired and setting paths of your file/files (the content of the example config file for running the benchmark analyses on the "AAC" representation method is also provided below).
 6. cd into the bin directory and run PROBE.py
